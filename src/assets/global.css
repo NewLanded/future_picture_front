@@ -1,0 +1,9 @@
+.main-el-aside {
+	width: 300px;
+	height: 800px;
+	border-right: solid 1px #2c3e50;
+}
+
+.header-split-line {
+	border-bottom: 1px solid #ced4da;
+}
