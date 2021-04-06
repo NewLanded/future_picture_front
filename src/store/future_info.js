@@ -9,13 +9,14 @@ export default {
 		future_info_ori: {
 			常用: {
 				沪深300: 'IF.CFX',
-				棕榈油: 'P.DCE',
-				豆一: 'A.DCE',
-				玻璃: 'FG.ZCE',
-				白糖: 'SR.ZCE',
-				螺纹钢: 'RB.SHF',
-				棉花: 'CF.ZCE',
 				黄金: 'AU.SHF',
+				棕榈油: 'P.DCE',
+				玻璃: 'FG.ZCE',
+				豆一: 'A.DCE',
+				白糖: 'SR.ZCE',
+				玉米: 'C.DCE',
+				棉花: 'CF.ZCE',
+				螺纹钢: 'RB.SHF',
 				乙二醇: 'EG.DCE',
 				苹果: 'AP.ZCE',
 				鸡蛋: 'JD.DCE'
