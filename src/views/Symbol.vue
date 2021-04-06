@@ -15,38 +15,43 @@
 				<el-tree :data="aside_future_data" :props="$store.state.defaultProps" @node-click="aside_data_click"></el-tree>
 			</el-aside>
 			<el-main>
+				<h3 class="comment-height">月线</h3>
 				<k_bar :print_data="main_code_interval_point_data.M" :key='1'></k_bar>
+				<h3 class="comment-height">周线</h3>
 				<k_bar :print_data="main_code_interval_point_data.W" :key='2'></k_bar>
+				<h3 class="comment-height">日线</h3>
 				<k_bar :print_data="ts_code_interval_point_data.D" :key='3'></k_bar>
-				<k_vol_bar :print_data="ts_code_interval_holding_data_first_n" :key='4'></k_vol_bar>
 				
+				<h3 class="comment-height">前N持仓占比</h3>
+				<k_vol_bar :print_data="ts_code_interval_pure_holding_data_first_n" :key='4'></k_vol_bar>
+				
+				<h3 class="comment-height">持仓明细</h3>
 				<el-row :gutter="20" type="flex">
 					<el-col :span="12">
-						<k_vol_pie_bar :print_data="ts_code_interval_volume_max_date_data.long" @changePieBroker="changePieBroker" :pie_name="pie_name_1" :key='5'></k_vol_pie_bar>
+						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.long" @changePieBroker="changePieBroker" :pie_name="pie_name_1" :key='5'></k_vol_pie_bar>
 					</el-col>
 					<el-col :span="12">
-						<k_vol_bar_origin :print_data="ts_code_interval_volume_broker_data.long" :key='6'></k_vol_bar_origin>
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.long" :key='6'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20" type="flex">
 					<el-col :span="12">
-						<k_vol_pie_bar :print_data="ts_code_interval_volume_max_date_data.short" @changePieBroker="changePieBroker" :pie_name="pie_name_2" :key='7'></k_vol_pie_bar>
+						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.short" @changePieBroker="changePieBroker" :pie_name="pie_name_2" :key='7'></k_vol_pie_bar>
 					</el-col>
 					<el-col :span="12">
-						<k_vol_bar_origin :print_data="ts_code_interval_volume_broker_data.short" :key='6'></k_vol_bar_origin>
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short" :key='6'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20" type="flex">
 					<el-col :span="12">
-						<k_vol_pie_bar :print_data="ts_code_interval_volume_max_date_data.vol" @changePieBroker="changePieBroker" :pie_name="pie_name_3" :key='9'></k_vol_pie_bar>
+						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.vol" @changePieBroker="changePieBroker" :pie_name="pie_name_3" :key='9'></k_vol_pie_bar>
 					</el-col>
 					<el-col :span="12">
-						<k_vol_bar_origin :print_data="ts_code_interval_volume_broker_data.vol" :key='6'></k_vol_bar_origin>
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.vol" :key='6'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
 				
-				{{ts_code_interval_volume_broker_data}}
-				<div style="height: 300px;"></div>
+				<div style="height: 200px;"></div>
 			</el-main>
 
 		</el-container>
@@ -120,8 +125,8 @@
 				}
 				return result
 			},
-			ts_code_interval_holding_data_first_n() {
-				let result_ori = this.$store.state.future_info.ts_code_interval_holding_data_first_n;
+			ts_code_interval_pure_holding_data_first_n() {
+				let result_ori = this.$store.state.future_info.ts_code_interval_pure_holding_data_first_n;
 				
 				let result = {}
 				for (let index in result_ori){
@@ -139,8 +144,8 @@
 			
 				return result
 			},
-			ts_code_interval_volume_max_date_data() {
-				let result_ori = this.$store.state.future_info.ts_code_interval_volume_data;
+			ts_code_interval_pure_volume_max_date_data() {
+				let result_ori = this.$store.state.future_info.ts_code_interval_pure_volume_data;
 				
 				let max_date = "1990-01-01";
 				for (let key in result_ori){
@@ -167,8 +172,8 @@
 			
 				return result
 			},
-			ts_code_interval_volume_broker_data() {
-				let result_ori = this.$store.state.future_info.ts_code_interval_volume_data;
+			ts_code_interval_pure_volume_broker_data() {
+				let result_ori = this.$store.state.future_info.ts_code_interval_pure_volume_data;
 				
 				let max_date = "1990-01-01";
 				let min_date = "2199-12-31";
@@ -258,12 +263,12 @@
 					end_date: end_date,
 					freq_code: 'D'
 				})
-				this.$store.dispatch('future_info/ts_code_interval_holding_data_first_n', {
+				this.$store.dispatch('future_info/ts_code_interval_pure_holding_data_first_n', {
 					ts_code: ts_code,
 					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 365),
 					end_date: end_date
 				})
-				this.$store.dispatch('future_info/ts_code_interval_volume_data', {
+				this.$store.dispatch('future_info/ts_code_interval_pure_volume_data', {
 					ts_code: ts_code,
 					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 365),
 					end_date: end_date
@@ -302,4 +307,7 @@
 
 
 <style>
+	.comment-height{
+		line-height: 50px;
+	}
 </style>

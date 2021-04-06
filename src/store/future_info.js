@@ -7,6 +7,19 @@ export default {
 	namespaced: true,
 	state: () => ({
 		future_info_ori: {
+			常用: {
+				沪深300: 'IF.CFX',
+				棕榈油: 'P.DCE',
+				豆一: 'A.DCE',
+				玻璃: 'FG.ZCE',
+				白糖: 'SR.ZCE',
+				螺纹钢: 'RB.SHF',
+				棉花: 'CF.ZCE',
+				黄金: 'AU.SHF',
+				乙二醇: 'EG.DCE',
+				苹果: 'AP.ZCE',
+				鸡蛋: 'JD.DCE'
+			},
 			农产品: {
 				油脂油料: {
 					豆二: 'B.DCE',
@@ -90,8 +103,8 @@ export default {
 		main_code_interval_raise_fall_data: {'D': [], 'W': [], 'M': []},
 		main_code_interval_point_data: {'D': [], 'W': [], 'M': []},
 		ts_code_interval_point_data: {'D': [], 'W': [], 'M': []},
-		ts_code_interval_holding_data_first_n: [],
-		ts_code_interval_volume_data: {}
+		ts_code_interval_pure_holding_data_first_n: [],
+		ts_code_interval_pure_volume_data: {}
 	}),
 	getters: {
 		aside_future_data: state => {
@@ -151,11 +164,11 @@ export default {
 			const freq_code = data.freq_code;
 			state.ts_code_interval_point_data[freq_code] = data.result;
 		},
-		ts_code_interval_holding_data_first_n: (state, data) => {
-			state.ts_code_interval_holding_data_first_n = data.result;
+		ts_code_interval_pure_holding_data_first_n: (state, data) => {
+			state.ts_code_interval_pure_holding_data_first_n = data.result;
 		},
-		ts_code_interval_volume_data: (state, data) => {
-			state.ts_code_interval_volume_data = data.result;
+		ts_code_interval_pure_volume_data: (state, data) => {
+			state.ts_code_interval_pure_volume_data = data.result;
 		},
 	},
 	actions: {
@@ -232,13 +245,13 @@ export default {
 				console.log(err)
 			})
 		},
-		ts_code_interval_holding_data_first_n(context, param){
+		ts_code_interval_pure_holding_data_first_n(context, param){
 			const start_date = param.start_date;
 			const end_date = param.end_date;
 			const ts_code = param.ts_code;
 			
 			ajax.post({
-				url: 'point/ts_code_interval_holding_data_first_n',
+				url: 'point/ts_code_interval_pure_holding_data_first_n',
 				data: {
 					start_date: dateutil.dateFormat(start_date),
 					end_date: dateutil.dateFormat(end_date), 
@@ -247,19 +260,19 @@ export default {
 				
 			}).then((response) => {
 				if (response.status === 200) {
-					context.commit('ts_code_interval_holding_data_first_n', {result: response.data})
+					context.commit('ts_code_interval_pure_holding_data_first_n', {result: response.data})
 				}
 			}).catch((err) => {
 				console.log(err)
 			})
 		},
-		ts_code_interval_volume_data(context, param){
+		ts_code_interval_pure_volume_data(context, param){
 			const start_date = param.start_date;
 			const end_date = param.end_date;
 			const ts_code = param.ts_code;
 			
 			ajax.post({
-				url: 'point/ts_code_interval_volume_data',
+				url: 'point/ts_code_interval_pure_volume_data',
 				data: {
 					start_date: dateutil.dateFormat(start_date),
 					end_date: dateutil.dateFormat(end_date), 
@@ -268,7 +281,7 @@ export default {
 				
 			}).then((response) => {
 				if (response.status === 200) {
-					context.commit('ts_code_interval_volume_data', {result: response.data})
+					context.commit('ts_code_interval_pure_volume_data', {result: response.data})
 				}
 			}).catch((err) => {
 				console.log(err)
