@@ -10,17 +10,18 @@
 		},
 		data() {
 			return {
-				myChart: ''
+				myChart: '',
+				bar_width: 3
 			}
 		},
-
 		watch: {
 			print_data: {
 				handler(new_data, old_data) {
 					this.echartsUpdate()
 				},
 				deep: true
-			}
+			},
+			
 		},
 
 		methods: {
@@ -31,7 +32,7 @@
 				var option;
 				let date = this.print_data.date;
 				let data = this.print_data.data;
-
+				
 				function calculateMA(dayCount, data) {
 					var result = [];
 					for (var i = 0, len = data.length; i < len; i++) {
@@ -249,7 +250,7 @@
 							xAxisIndex: 1,
 							yAxisIndex: 1,
 							data: macd.macd,
-							barWidth: '40%',
+							// barWidth: '40%',
 							itemStyle: {
 								color: function(params) {
 									var colorList;
@@ -299,5 +300,6 @@
 	}
 </script>
 
-<style>
+<style scoped>
+
 </style>

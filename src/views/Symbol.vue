@@ -244,13 +244,13 @@
 			point_picture_func(ts_code, end_date){
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 6000),
+					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 3650),
 					end_date: end_date,
 					freq_code: 'M'
 				})
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 1500),
+					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 854),
 					end_date: end_date,
 					freq_code: 'W'
 				})
@@ -259,18 +259,18 @@
 			volume_picture_func(ts_code, end_date){
 				this.$store.dispatch('future_info/ts_code_interval_point_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 365),
+					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180),
 					end_date: end_date,
 					freq_code: 'D'
 				})
 				this.$store.dispatch('future_info/ts_code_interval_pure_holding_data_first_n', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 365),
+					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180),
 					end_date: end_date
 				})
 				this.$store.dispatch('future_info/ts_code_interval_pure_volume_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 365),
+					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180),
 					end_date: end_date
 				})
 			},

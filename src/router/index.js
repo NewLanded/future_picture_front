@@ -8,6 +8,7 @@ import Summarize from '../views/Summarize.vue'
 import Note from '../views/Note.vue'
 import NoteWrite from '../views/NoteWrite.vue'
 import Symbol from '../views/Symbol.vue'
+import State from '../views/State.vue'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,14 @@ const routes = [
 		path: '/symbol',
 		name: 'Symbol',
 		component: Symbol,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
+	{
+		path: '/state',
+		name: 'State',
+		component: State,
 		meta: {
 			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
 		}
