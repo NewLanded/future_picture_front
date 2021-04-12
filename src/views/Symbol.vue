@@ -39,7 +39,7 @@
 						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.short" @changePieBroker="changePieBroker" :pie_name="pie_name_2" :key='7'></k_vol_pie_bar>
 					</el-col>
 					<el-col :span="12">
-						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short" :key='6'></k_vol_bar_origin>
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short" :key='8'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20" type="flex">
@@ -47,7 +47,15 @@
 						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.vol" @changePieBroker="changePieBroker" :pie_name="pie_name_3" :key='9'></k_vol_pie_bar>
 					</el-col>
 					<el-col :span="12">
-						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.vol" :key='6'></k_vol_bar_origin>
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.long_vol" :key='10'></k_vol_bar_origin>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20" type="flex">
+					<el-col :span="12">
+						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.vol" @changePieBroker="changePieBroker" :pie_name="pie_name_4" :key='11'></k_vol_pie_bar>
+					</el-col>
+					<el-col :span="12">
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short_vol" :key='12'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
 				
@@ -77,8 +85,10 @@
 				mainTsCode: '',
 				pie_name_1: '多头',
 				pie_name_2: '空头',
-				pie_name_3: '成交量',
-				pieBroker: ''
+				pie_name_3: '成交量-多',
+				pie_name_4: '成交量-空',
+				pieBroker: '',
+				volume_broker_data_bk: {long: [], short: [], long_vol: [], short_vol: []}
 			};
 		},
 		computed: {
@@ -173,6 +183,60 @@
 				return result
 			},
 			ts_code_interval_pure_volume_broker_data() {
+				let pure_volume_data = this.format_ts_code_interval_pure_volume_data(this.pieBroker)
+				let dateRange = pure_volume_data[0]
+				let result = pure_volume_data[1]
+				
+				let max_date = dateRange[dateRange.length - 1]
+				let volume_type = ''
+				if(max_date in result['long']){
+					volume_type = 'long'
+				} else {
+					volume_type = 'short'
+				}
+				let vol_key = volume_type + "_vol"
+				
+				let result_formated = this.volume_broker_data_bk
+				result_formated[volume_type] = []
+				result_formated[vol_key] = []
+				
+				let long_data_now = result['long']
+				let short_data_now = result['short']
+				let vol_data_now = result['vol']
+				for (let date_now_index in dateRange){
+					if(dateRange[date_now_index] in vol_data_now){
+						result_formated[vol_key].push(vol_data_now[dateRange[date_now_index]])
+					}else{
+						result_formated[vol_key].push({
+							amount: 0,
+							percent: 0,
+							date: dateRange[date_now_index]
+						})
+					}
+					
+					if(dateRange[date_now_index] in long_data_now){
+						result_formated[volume_type].push(long_data_now[dateRange[date_now_index]])
+					}else if(dateRange[date_now_index] in short_data_now){
+						result_formated[volume_type].push({
+							amount: -short_data_now[dateRange[date_now_index]]['amount'],
+							percent: -short_data_now[dateRange[date_now_index]]['percent'],
+							date: dateRange[date_now_index]
+						})
+					}else{
+						result_formated[volume_type].push({
+							amount: 0,
+							percent: 0,
+							date: dateRange[date_now_index]
+						})
+					}
+				}
+				
+				this.volume_broker_data_bk = result_formated
+				return result_formated
+			}
+		},
+		methods: {
+			format_ts_code_interval_pure_volume_data(pieBroker){
 				let result_ori = this.$store.state.future_info.ts_code_interval_pure_volume_data;
 				
 				let max_date = "1990-01-01";
@@ -181,13 +245,15 @@
 				for (let key in result_ori){
 					let data_now = result_ori[key];
 					for (let index in data_now){
-						if(data_now[index]['date'] > max_date){
-							max_date = data_now[index]['date']
+						if (data_now[index]['broker'] == this.pieBroker){
+							if(data_now[index]['date'] > max_date){
+								max_date = data_now[index]['date']
+							}
+							if(data_now[index]['date'] < min_date){
+								min_date = data_now[index]['date']
+							}
+							dateRange.push(data_now[index]['date'])
 						}
-						if(data_now[index]['date'] < min_date){
-							min_date = data_now[index]['date']
-						}
-						dateRange.push(data_now[index]['date'])
 					}
 				}
 				dateRange = [...new Set(dateRange)]
@@ -207,26 +273,9 @@
 					}
 				}
 				
-				let result_formated = {long: [], short: [], vol: []}
-				for (let key in result){
-					let data_now = result[key];
-					for (let date_now_index in dateRange){
-						if(dateRange[date_now_index] in data_now){
-							result_formated[key].push(data_now[dateRange[date_now_index]])
-						}else{
-							result_formated[key].push({
-								amount: 0,
-								percent: 0,
-								date: dateRange[date_now_index]
-							})
-						}
-					}
-				}
-				
-				return result_formated
-			}
-		},
-		methods: {
+				return [dateRange, result]
+			},
+			
 			aside_data_click(data) {
 				if (data.id.length == 1) {
 					let mainTsCode = data.id[0];

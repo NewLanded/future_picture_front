@@ -87,7 +87,7 @@
 								padding: 25
 							},
 							position: 'left',
-							min: 0
+							// min: 0
 						},
 						{
 							type: 'value',
@@ -101,7 +101,7 @@
 								padding: 25
 							},
 							position: 'right',
-							min: 0
+							// min: 0
 						}
 					],
 
