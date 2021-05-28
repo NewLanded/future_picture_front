@@ -21,10 +21,11 @@
 				<k_bar :print_data="main_code_interval_point_data.W" :key='2'></k_bar>
 				<h3 class="comment-height">日线</h3>
 				<k_bar :print_data="ts_code_interval_point_data.D" :key='3'></k_bar>
-				
+
 				<h3 class="comment-height">前N持仓占比</h3>
 				<k_vol_bar :print_data="ts_code_interval_pure_holding_data_first_n" :key='4'></k_vol_bar>
-				
+				加一个当日持仓变化, 看看哪天的变化比平时多, 持仓总量
+
 				<h3 class="comment-height">持仓明细</h3>
 				<el-row :gutter="20" type="flex">
 					<el-col :span="12">
@@ -42,7 +43,7 @@
 						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short" :key='8'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20" type="flex">
+				<!-- <el-row :gutter="20" type="flex">
 					<el-col :span="12">
 						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.vol" @changePieBroker="changePieBroker" :pie_name="pie_name_3" :key='9'></k_vol_pie_bar>
 					</el-col>
@@ -57,8 +58,8 @@
 					<el-col :span="12">
 						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short_vol" :key='12'></k_vol_bar_origin>
 					</el-col>
-				</el-row>
-				
+				</el-row> -->
+
 				<div style="height: 200px;"></div>
 			</el-main>
 
@@ -75,7 +76,7 @@
 	import k_vol_bar_origin from '../components/print/k_vol_bar_origin.vue'
 	import k_vol_pie_bar from '../components/print/k_vol_pie_bar.vue'
 	import ts_code_com from '../components/paramComponents/tsCodeCom.vue'
-	
+
 
 	export default {
 		data() {
@@ -88,8 +89,12 @@
 				pie_name_3: '成交量-多',
 				pie_name_4: '成交量-空',
 				pieBroker: '',
-				volume_broker_data_bk: {long: [], short: [], long_vol: [], short_vol: []}
+				pie_volume_broker_data: null,
+				pie_volume_broker_data_default: {long: [], short: [], long_vol: [], short_vol: []}
 			};
+		},
+		created(){
+			this.pie_volume_broker_data = this.lodash.cloneDeep(this.pie_volume_broker_data_default);
 		},
 		computed: {
 			aside_future_data() {
@@ -108,11 +113,12 @@
 						data: []
 					}
 				};
+
 				for (let freq_code in result_ori) {
-					for (let date in result_ori[freq_code]) {
-						result[freq_code].date.push(date)
-						result[freq_code].data.push([result_ori[freq_code][date].open, result_ori[freq_code][date].close, result_ori[
-							freq_code][date].low, result_ori[freq_code][date].high])
+					for (let index in result_ori[freq_code]) {
+						result[freq_code].date.push(result_ori[freq_code][index].date)
+						result[freq_code].data.push([result_ori[freq_code][index].open, result_ori[freq_code][index].close, result_ori[
+							freq_code][index].low, result_ori[freq_code][index].high])
 					}
 				}
 				return result
@@ -127,17 +133,17 @@
 					}
 				};
 				for (let freq_code in result_ori) {
-					for (let date in result_ori[freq_code]) {
-						result[freq_code].date.push(date)
-						result[freq_code].data.push([result_ori[freq_code][date].open, result_ori[freq_code][date].close, result_ori[
-							freq_code][date].low, result_ori[freq_code][date].high])
+					for (let index in result_ori[freq_code]) {
+						result[freq_code].date.push(result_ori[freq_code][index].date)
+						result[freq_code].data.push([result_ori[freq_code][index].open, result_ori[freq_code][index].close, result_ori[
+							freq_code][index].low, result_ori[freq_code][index].high])
 					}
 				}
 				return result
 			},
 			ts_code_interval_pure_holding_data_first_n() {
 				let result_ori = this.$store.state.future_info.ts_code_interval_pure_holding_data_first_n;
-				
+
 				let result = {}
 				for (let index in result_ori){
 					let first_n_data_now = result_ori[index];
@@ -151,12 +157,12 @@
 						result[first_n_data_now.first_n]['short_percent'].push(data.short_percent)
 					}
 				}
-			
+
 				return result
 			},
 			ts_code_interval_pure_volume_max_date_data() {
 				let result_ori = this.$store.state.future_info.ts_code_interval_pure_volume_data;
-				
+
 				let max_date = "1990-01-01";
 				for (let key in result_ori){
 					let data_now = result_ori[key];
@@ -166,7 +172,7 @@
 						}
 					}
 				}
-				
+
 				let result = {long: [], short: [], vol: []}
 				for (let key in result_ori){
 					let data_now = result_ori[key];
@@ -179,14 +185,12 @@
 						}
 					}
 				}
-			
+
 				return result
 			},
 			ts_code_interval_pure_volume_broker_data() {
-				let pure_volume_data = this.format_ts_code_interval_pure_volume_data(this.pieBroker)
-				let dateRange = pure_volume_data[0]
-				let result = pure_volume_data[1]
-				
+				let [dateRange, result] = this.format_ts_code_interval_pure_volume_data(this.pieBroker)
+
 				let max_date = dateRange[dateRange.length - 1]
 				let volume_type = ''
 				if(max_date in result['long']){
@@ -195,50 +199,47 @@
 					volume_type = 'short'
 				}
 				let vol_key = volume_type + "_vol"
-				
-				let result_formated = this.volume_broker_data_bk
-				result_formated[volume_type] = []
-				result_formated[vol_key] = []
-				
+
+				this.pie_volume_broker_data[volume_type] = []
+				this.pie_volume_broker_data[vol_key] = []
+
 				let long_data_now = result['long']
 				let short_data_now = result['short']
 				let vol_data_now = result['vol']
 				for (let date_now_index in dateRange){
 					if(dateRange[date_now_index] in vol_data_now){
-						result_formated[vol_key].push(vol_data_now[dateRange[date_now_index]])
+						this.pie_volume_broker_data[vol_key].push(vol_data_now[dateRange[date_now_index]])
 					}else{
-						result_formated[vol_key].push({
+						this.pie_volume_broker_data[vol_key].push({
 							amount: 0,
 							percent: 0,
 							date: dateRange[date_now_index]
 						})
 					}
-					
+
 					if(dateRange[date_now_index] in long_data_now){
-						result_formated[volume_type].push(long_data_now[dateRange[date_now_index]])
+						this.pie_volume_broker_data[volume_type].push(long_data_now[dateRange[date_now_index]])
 					}else if(dateRange[date_now_index] in short_data_now){
-						result_formated[volume_type].push({
+						this.pie_volume_broker_data[volume_type].push({
 							amount: -short_data_now[dateRange[date_now_index]]['amount'],
 							percent: -short_data_now[dateRange[date_now_index]]['percent'],
 							date: dateRange[date_now_index]
 						})
 					}else{
-						result_formated[volume_type].push({
+						this.pie_volume_broker_data[volume_type].push({
 							amount: 0,
 							percent: 0,
 							date: dateRange[date_now_index]
 						})
 					}
 				}
-				
-				this.volume_broker_data_bk = result_formated
-				return result_formated
+				return this.pie_volume_broker_data
 			}
 		},
 		methods: {
 			format_ts_code_interval_pure_volume_data(pieBroker){
 				let result_ori = this.$store.state.future_info.ts_code_interval_pure_volume_data;
-				
+
 				let max_date = "1990-01-01";
 				let min_date = "2199-12-31";
 				let dateRange = [];
@@ -258,7 +259,7 @@
 				}
 				dateRange = [...new Set(dateRange)]
 				dateRange.sort()
-				
+
 				let result = {long: {}, short: {}, vol: {}}
 				for (let key in result_ori){
 					let data_now = result_ori[key];
@@ -272,24 +273,26 @@
 						}
 					}
 				}
-				
+
 				return [dateRange, result]
 			},
-			
+
 			aside_data_click(data) {
 				if (data.id.length == 1) {
 					let mainTsCode = data.id[0];
 					this.mainTsCode = data.id[0];
 					this.tsCodeComValue = '';
+					
 					this.pieBroker = '';
-
+					this.pie_volume_broker_data = this.lodash.cloneDeep(this.pie_volume_broker_data_default);
+					
 					this.point_picture_func(mainTsCode, this.dateComValue)
 					this.volume_picture_func(mainTsCode, this.dateComValue)
-					
+
 				}
 
 			},
-			
+
 			point_picture_func(ts_code, end_date){
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
@@ -304,7 +307,7 @@
 					freq_code: 'W'
 				})
 			},
-			
+
 			volume_picture_func(ts_code, end_date){
 				this.$store.dispatch('future_info/ts_code_interval_point_data', {
 					ts_code: ts_code,
@@ -323,15 +326,15 @@
 					end_date: end_date
 				})
 			},
-			
+
 			changeEventDate(val) {
 				this.dateComValue = val;
-				
+
 				let ts_code = this.tsCodeComValue
 				if(!ts_code){
 					ts_code = this.mainTsCode
 				}
-				
+
 				this.point_picture_func(ts_code, this.dateComValue)
 				this.volume_picture_func(ts_code, this.dateComValue)
 			},

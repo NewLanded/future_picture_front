@@ -15,11 +15,9 @@ post.interceptors.request.use(
 		if (store.state.login.token){
 			config.headers['Authorization'] = 'Bearer ' + store.state.login.token
 		}
-		
 		if (!config.headers['Content-Type']){
 			config.headers['Content-Type'] = 'application/json'
 		}
-
 		return config
 	},
 	(error) => {
@@ -27,6 +25,23 @@ post.interceptors.request.use(
 		return Promise.reject(error)
 	}
 )
+
+
+post.interceptors.response.use(
+    (response) => {
+        // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
+        // 否则的话抛出错误
+        if (response.status === 200) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.reject(response);
+        }
+    },
+    (error) => {
+		return Promise.reject(error)
+    }
+);
+
 
 export default {
 	post

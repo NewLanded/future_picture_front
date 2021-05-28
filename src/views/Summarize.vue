@@ -8,8 +8,11 @@
 				<el-tree :data="aside_future_data" :props="$store.state.defaultProps" @node-click="aside_data_click"></el-tree>
 			</el-aside>
 			<el-main>
+				<h2>日</h2>
 				<summarize_bar :print_data="main_code_interval_raise_fall_data.D" :key='1'></summarize_bar>
+				<h2>周</h2>
 				<summarize_bar :print_data="main_code_interval_raise_fall_data.W" :key='2'></summarize_bar>
+				<h2>月</h2>
 				<summarize_bar :print_data="main_code_interval_raise_fall_data.M" :key='3'></summarize_bar>
 			</el-main>
 		</el-container>
@@ -64,19 +67,19 @@
 
 				this.$store.dispatch('future_info/main_code_interval_raise_fall_data', {
 					ts_code_list: data.id,
-					start_date: new Date(this.dateComValue.getTime() - 3600 * 1000 * 24 * 60),
+					start_date: new Date(this.dateComValue.getTime() - 3600 * 1000 * 24 * 120),
 					end_date: this.dateComValue,
 					freq_code: 'D'
 				})
 				this.$store.dispatch('future_info/main_code_interval_raise_fall_data', {
 					ts_code_list: data.id,
-					start_date: new Date(this.dateComValue.getTime() - 3600 * 1000 * 24 * 230),
+					start_date: new Date(this.dateComValue.getTime() - 3600 * 1000 * 24 * 460),
 					end_date: this.dateComValue,
 					freq_code: 'W'
 				})
 				this.$store.dispatch('future_info/main_code_interval_raise_fall_data', {
 					ts_code_list: data.id,
-					start_date: new Date(this.dateComValue.getTime() - 3600 * 1000 * 24 * 1000),
+					start_date: new Date(this.dateComValue.getTime() - 3600 * 1000 * 24 * 2000),
 					end_date: this.dateComValue,
 					freq_code: 'M'
 				})

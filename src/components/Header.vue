@@ -4,9 +4,9 @@
 			<el-col :span="2">
 				<div class="white-space"></div>
 			</el-col>
-			<el-col :span="8" align="left" id="title">
-				<div class="grid-content bg-purple">时间的朋友</div>
-			</el-col> 
+			<el-col :span="10" align="left" id="title">
+				<div class="grid-content bg-purple">测试VUE</div>
+			</el-col>
 			<el-col :span="2">
 				<div class="grid-content bg-purple">
 					<router-link to="/summarize">Summarize</router-link>
@@ -17,9 +17,14 @@
 					<router-link to="/symbol">Symbol</router-link>
 				</div>
 			</el-col> |
-			<el-col :span="2">
+<!-- 			<el-col :span="2">
 				<div class="grid-content bg-purple">
 					<router-link to="/state">State</router-link>
+				</div>
+			</el-col> | -->
+			<el-col :span="2">
+				<div class="grid-content bg-purple">
+					<router-link to="/step">Step</router-link>
 				</div>
 			</el-col> |
 			<el-col :span="2">
@@ -27,17 +32,17 @@
 					<router-link to="/note">Note</router-link>
 				</div>
 			</el-col> |
-			<el-col :span="2">
+<!-- 			<el-col :span="2">
 				<div class="grid-content bg-purple">
 					<router-link to="/note-write">NoteWrite</router-link>
 				</div>
-			</el-col> |
+			</el-col> | -->
 
 			<el-col :span="4">
 				<div class="white-space"></div>
 			</el-col>
 		</el-row>
-		
+
 	</el-header>
 </template>
 
@@ -45,26 +50,24 @@
 </script>
 
 <style lang="less" scoped="scoped">
-
-	
-	.white-space{
+	.white-space {
 		margin: 1px;
 	}
-	
-	.el-row{
+
+	.el-row {
 		height: 100%;
 	}
-	
-	#title{
+
+	#title {
 		height: 100%;
-		div{
+
+		div {
 			line-height: 60px;
 			font-size: 140%;
 		}
 	}
-	
-	a{
+
+	a {
 		text-decoration: none;
 	}
-	
 </style>

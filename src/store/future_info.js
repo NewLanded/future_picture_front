@@ -1,5 +1,4 @@
 import ajax from '../assets/ajax.js'
-import dateutil from '../assets/dateutil.js'
 import datautil from '../assets/datautil.js'
 
 
@@ -138,23 +137,11 @@ export default {
 			add_symbol(state.future_info_ori, future_info_new, [])
 
 			return future_info_new
-		},
-		// main_code_interval_raise_fall_data: state => {
-		// 	return state.main_code_interval_raise_fall_data
-		// },
-		// ts_code_interval_point_data: state => {
-		// 	return state.ts_code_interval_point_data
-		// }
+		}
 	},
 	mutations: {
 		main_code_interval_raise_fall_data: (state, data) => {
 			const freq_code = data.freq_code;
-			
-			// let result = datautil.copy(state.main_code_interval_raise_fall_data);
-			// result[freq_code] = data.result;
-			
-			// state.main_code_interval_raise_fall_data = result;
-			
 			state.main_code_interval_raise_fall_data[freq_code] = data.result;
 		},
 		main_code_interval_point_data: (state, data) => {
@@ -173,9 +160,7 @@ export default {
 		},
 	},
 	actions: {
-		main_code_interval_raise_fall_data(context, param) {
-			// const start_date = new Date(param.data_date.getTime() - 3600 * 1000 * 24 * interval);
-			
+		main_code_interval_raise_fall_data(context, param) {			
 			const start_date = param.start_date;
 			const end_date = param.end_date;
 			const ts_code_list = param.ts_code_list;
@@ -183,11 +168,9 @@ export default {
 			
 			ajax.post({
 				url: 'summarize/main_code_interval_raise_fall_data',
-				data: {
-					// start_date: dateutil.dateFormat(param.data_date),
-					
-					start_date: dateutil.dateFormat(start_date),
-					end_date: dateutil.dateFormat(end_date), 
+				data: {					
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
 					ts_code_list: ts_code_list,
 					freq_code: freq_code
 				},
@@ -209,8 +192,8 @@ export default {
 			ajax.post({
 				url: 'point/main_code_interval_point_data',
 				data: {
-					start_date: dateutil.dateFormat(start_date),
-					end_date: dateutil.dateFormat(end_date), 
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
 					ts_code: main_ts_code,
 					freq_code: freq_code
 				},
@@ -232,8 +215,8 @@ export default {
 			ajax.post({
 				url: 'point/ts_code_interval_point_data',
 				data: {
-					start_date: dateutil.dateFormat(start_date),
-					end_date: dateutil.dateFormat(end_date), 
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
 					ts_code: ts_code,
 					freq_code: freq_code
 				},
@@ -254,8 +237,8 @@ export default {
 			ajax.post({
 				url: 'point/ts_code_interval_pure_holding_data_first_n',
 				data: {
-					start_date: dateutil.dateFormat(start_date),
-					end_date: dateutil.dateFormat(end_date), 
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
 					ts_code: ts_code
 				},
 				
@@ -275,8 +258,8 @@ export default {
 			ajax.post({
 				url: 'point/ts_code_interval_pure_volume_data',
 				data: {
-					start_date: dateutil.dateFormat(start_date),
-					end_date: dateutil.dateFormat(end_date), 
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
 					ts_code: ts_code
 				},
 				
