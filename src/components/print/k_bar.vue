@@ -1,5 +1,5 @@
 <template>
-	<div style="width: auto;height: 400px" id="main" ref="main"></div>
+	<div style="width: auto;height: 500px" id="main" ref="main"></div>
 </template>
 
 <script>
@@ -219,6 +219,8 @@
 					series: [{
 
 							type: 'candlestick',
+                            barWidth: 1.5,
+                            barCategoryGap: 100,
 							name: 'K线',
 							xAxisIndex: 0,
 							yAxisIndex: 0,

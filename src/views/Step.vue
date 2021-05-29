@@ -1,5 +1,7 @@
 <template>
 	<div id="step">
+        1. 限制每个K线的宽度
+        2. 移仓换约的日期标志出来
 		<el-header class="header-split-line">
 			<el-row :gutter="20" type="flex">
 				<el-col :span="6">
@@ -136,21 +138,21 @@
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
 					// start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 3650 * 2 / 10),
-					start_date: end_date.add(-180, 'month'),
+					start_date: end_date.add(-221, 'month'),
 					end_date: end_date,
 					freq_code: 'M'
 				})
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
 					// start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 854 * 2 / 10),
-					start_date: end_date.add(-180, 'week'),
+					start_date: end_date.add(-221, 'week'),
 					end_date: end_date,
 					freq_code: 'W'
 				})
 				this.$store.dispatch('future_info/ts_code_interval_point_data', {
 					ts_code: ts_code,
 					// start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180 * 2 / 10),
-					start_date: end_date.add(-180, 'day'),
+					start_date: end_date.add(-365, 'day'),
 					end_date: end_date,
 					freq_code: 'D'
 				})
