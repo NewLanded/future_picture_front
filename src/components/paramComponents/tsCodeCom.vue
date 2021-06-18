@@ -1,6 +1,7 @@
 <template>
-	<div class="demo-autocomplete block box-align">
+	<div class="demo-autocomplete block box-align" align="left">
 		<span class="demonstration">代码</span>
+		
 		<el-autocomplete class="inline-input box-border" v-model="tsCodeComValue" :fetch-suggestions="querySearch"
 		 placeholder="请输入内容" @input="changeCode"></el-autocomplete>
 	</div>
@@ -48,7 +49,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.box-border {
 		margin: 10px;
 	}

@@ -58,10 +58,6 @@
 							if (response.status === 200) {
 								this.$store.commit('login/set_token', response.data.access_token)
 								this.$store.commit('login/set_user', this.ruleForm2.username)
-								// this.$message({
-								// 	message: '登陆成功',
-								// 	type: 'success'
-								// })
 								this.$router.push({
 									path: '/summarize'
 								})

@@ -11,36 +11,32 @@
 			</el-row>
 		</el-header>
 		<el-container>
-			<el-aside class="main-el-aside">
+			<el-aside class="main-el-aside" width="200px">
 				<el-tree :data="aside_future_data" :props="$store.state.defaultProps" @node-click="aside_data_click"></el-tree>
 			</el-aside>
 			<el-main>
 				<h3 class="comment-height">月线</h3>
-				<k_bar :print_data="main_code_interval_point_data.M" :key='1'></k_bar>
+				<k_bar :print_data="main_code_interval_point_data.M" :contract_change_date="contract_change_date_by_main_ts_code" :bs_note_data="bs_note_data.M" :note_data="note_data.M"  :key='1'></k_bar>
 				<h3 class="comment-height">周线</h3>
-				<k_bar :print_data="main_code_interval_point_data.W" :key='2'></k_bar>
-				<h3 class="comment-height">日线</h3>
-				<k_bar :print_data="ts_code_interval_point_data.D" :key='3'></k_bar>
-
-				<h3 class="comment-height">前N持仓占比</h3>
-				<k_vol_bar :print_data="ts_code_interval_pure_holding_data_first_n" :key='4'></k_vol_bar>
-				加一个当日持仓变化, 看看哪天的变化比平时多, 持仓总量
-
+				<k_bar :print_data="main_code_interval_point_data.W" :contract_change_date="contract_change_date_by_main_ts_code" :bs_note_data="bs_note_data.W" :note_data="note_data.W" :key='2'></k_bar>
+				<h3 class="comment-height">日线 {{dateComValue}}</h3>
+				<k_bar :print_data="ts_code_interval_point_data.D" :contract_change_date="contract_change_date_by_main_ts_code" :bs_note_data="bs_note_data.D" :note_data="note_data.D" :key='3'></k_bar>
+				
 				<h3 class="comment-height">持仓明细</h3>
 				<el-row :gutter="20" type="flex">
 					<el-col :span="12">
-						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.long" @changePieBroker="changePieBroker" :pie_name="pie_name_1" :key='5'></k_vol_pie_bar>
+						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.long" @changePieBroker="changePieBroker" :pie_name="pie_name_1" :key='4'></k_vol_pie_bar>
 					</el-col>
 					<el-col :span="12">
-						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.long" :key='6'></k_vol_bar_origin>
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.long" :key='5'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20" type="flex">
 					<el-col :span="12">
-						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.short" @changePieBroker="changePieBroker" :pie_name="pie_name_2" :key='7'></k_vol_pie_bar>
+						<k_vol_pie_bar :print_data="ts_code_interval_pure_volume_max_date_data.short" @changePieBroker="changePieBroker" :pie_name="pie_name_2" :key='6'></k_vol_pie_bar>
 					</el-col>
 					<el-col :span="12">
-						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short" :key='8'></k_vol_bar_origin>
+						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short" :key='7'></k_vol_bar_origin>
 					</el-col>
 				</el-row>
 				<!-- <el-row :gutter="20" type="flex">
@@ -59,6 +55,9 @@
 						<k_vol_bar_origin :print_data="ts_code_interval_pure_volume_broker_data.short_vol" :key='12'></k_vol_bar_origin>
 					</el-col>
 				</el-row> -->
+
+				<h3 class="comment-height">前N持仓占比</h3>
+				<k_vol_bar :print_data="ts_code_interval_pure_holding_data_first_n" :key='8'></k_vol_bar>
 
 				<div style="height: 200px;"></div>
 			</el-main>
@@ -81,7 +80,7 @@
 	export default {
 		data() {
 			return {
-				dateComValue: new Date(),
+				dateComValue: this.dayjs(),
 				tsCodeComValue: '',
 				mainTsCode: '',
 				pie_name_1: '多头',
@@ -143,7 +142,7 @@
 			},
 			ts_code_interval_pure_holding_data_first_n() {
 				let result_ori = this.$store.state.future_info.ts_code_interval_pure_holding_data_first_n;
-
+				
 				let result = {}
 				for (let index in result_ori){
 					let first_n_data_now = result_ori[index];
@@ -234,6 +233,53 @@
 					}
 				}
 				return this.pie_volume_broker_data
+			},
+			contract_change_date_by_main_ts_code(){
+				let result = this.$store.state.future_info.contract_change_date_by_main_ts_code;				
+				
+				return result
+			},
+			note_data(){
+				let result_ori = this.$store.state.future_info.note_data;
+
+				let result = []
+				if(this.tsCodeComValue != ''){
+					for(let index in result_ori){
+						if(result_ori[index]['ts_code'] == this.tsCodeComValue){
+							result.push(result_ori[index])
+						}
+					}
+				}else{
+					result = result_ori
+				}
+
+				let result_new = {"D": [], "W": [], "M": []};
+				for(let index in result){
+					result_new[result[index]["freq_code"]].push(result[index])
+				}
+				
+				return result_new
+			},
+			bs_note_data(){
+				let result_ori = this.$store.state.future_info.bs_note_data;
+			
+				let result = []
+				if(this.tsCodeComValue != ''){
+					for(let index in result_ori){
+						if(result_ori[index]['ts_code'] == this.tsCodeComValue){
+							result.push(result_ori[index])
+						}
+					}
+				}else{
+					result = result_ori
+				}
+			
+				let result_new = {"D": [], "W": [], "M": []};
+				for(let index in result){
+					result_new[result[index]["freq_code"]].push(result[index])
+				}
+				
+				return result_new
 			}
 		},
 		methods: {
@@ -288,47 +334,61 @@
 					
 					this.point_picture_func(mainTsCode, this.dateComValue)
 					this.volume_picture_func(mainTsCode, this.dateComValue)
-
 				}
-
 			},
 
 			point_picture_func(ts_code, end_date){
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 3650),
+					start_date: end_date.add(-180, 'month'),
 					end_date: end_date,
 					freq_code: 'M'
 				})
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 854),
+					start_date: end_date.add(-180, 'week'),
 					end_date: end_date,
 					freq_code: 'W'
+				})
+				this.$store.dispatch('future_info/contract_change_date_by_main_ts_code', {
+					main_ts_code: ts_code,
+					start_date: end_date.add(-180, 'month'),
+					end_date: end_date
+				})
+
+				this.$store.dispatch('future_info/note_data', {
+					main_ts_code: this.mainTsCode,
+					start_date: end_date.add(-180, 'month'),
+					end_date: end_date
+				})
+				this.$store.dispatch('future_info/bs_note_data', {
+					main_ts_code: this.mainTsCode,
+					start_date: end_date.add(-180, 'month'),
+					end_date: end_date
 				})
 			},
 
 			volume_picture_func(ts_code, end_date){
 				this.$store.dispatch('future_info/ts_code_interval_point_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180),
+					start_date: end_date.add(-270, 'day'),
 					end_date: end_date,
 					freq_code: 'D'
 				})
 				this.$store.dispatch('future_info/ts_code_interval_pure_holding_data_first_n', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180),
+					start_date: end_date.add(-180, 'day'),
 					end_date: end_date
 				})
 				this.$store.dispatch('future_info/ts_code_interval_pure_volume_data', {
 					ts_code: ts_code,
-					start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180),
+					start_date: end_date.add(-180, 'day'),
 					end_date: end_date
 				})
 			},
 
 			changeEventDate(val) {
-				this.dateComValue = val;
+				this.dateComValue = this.dayjs(val);
 
 				let ts_code = this.tsCodeComValue
 				if(!ts_code){

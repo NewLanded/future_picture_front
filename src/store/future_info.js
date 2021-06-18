@@ -1,5 +1,4 @@
 import ajax from '../assets/ajax.js'
-import datautil from '../assets/datautil.js'
 
 
 export default {
@@ -104,7 +103,11 @@ export default {
 		main_code_interval_point_data: {'D': [], 'W': [], 'M': []},
 		ts_code_interval_point_data: {'D': [], 'W': [], 'M': []},
 		ts_code_interval_pure_holding_data_first_n: [],
-		ts_code_interval_pure_volume_data: {}
+		ts_code_interval_pure_volume_data: {},
+		main_code_relative_close_point_data: {'D': [], 'W': [], 'M': []},
+		contract_change_date_by_main_ts_code: [],
+		note_data: [],
+		bs_note_data: []
 	}),
 	getters: {
 		aside_future_data: state => {
@@ -157,6 +160,19 @@ export default {
 		},
 		ts_code_interval_pure_volume_data: (state, data) => {
 			state.ts_code_interval_pure_volume_data = data.result;
+		},
+		main_code_relative_close_point_data: (state, data) => {
+			const freq_code = data.freq_code;
+			state.main_code_relative_close_point_data[freq_code] = data.result;
+		},
+		contract_change_date_by_main_ts_code: (state, data) => {
+			state.contract_change_date_by_main_ts_code = data.result;
+		},
+		note_data: (state, data) => {
+			state.note_data = data.result;
+		},
+		bs_note_data: (state, data) => {
+			state.bs_note_data = data.result;
 		},
 	},
 	actions: {
@@ -270,6 +286,93 @@ export default {
 			}).catch((err) => {
 				console.log(err)
 			})
-		}
+		},
+		
+		main_code_relative_close_point_data(context, param) {
+			const start_date = param.start_date;
+			const end_date = param.end_date;
+			const ts_code_list = param.ts_code_list;
+			const freq_code = param.freq_code;
+			
+			ajax.post({
+				url: 'summarize/main_code_relative_close_point_data',
+				data: {					
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
+					ts_code_list: ts_code_list,
+					freq_code: freq_code
+				},
+				
+			}).then((response) => {
+				if (response.status === 200) {
+					context.commit('main_code_relative_close_point_data', {result: response.data, freq_code: freq_code})
+				}
+			}).catch((err) => {
+				console.log(err)
+			})
+		},
+		contract_change_date_by_main_ts_code(context, param) {
+			const start_date = param.start_date;
+			const end_date = param.end_date;
+			const main_ts_code = param.main_ts_code;
+			
+			ajax.post({
+				url: 'symbol/get_contract_change_date_by_main_ts_code',
+				data: {					
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
+					main_ts_code: main_ts_code
+				},
+				
+			}).then((response) => {
+				if (response.status === 200) {
+					context.commit('contract_change_date_by_main_ts_code', {result: response.data})
+				}
+			}).catch((err) => {
+				console.log(err)
+			})
+		},
+		note_data(context, param) {
+			const start_date = param.start_date;
+			const end_date = param.end_date;
+			const main_ts_code = param.main_ts_code;
+			
+			ajax.post({
+				url: 'note/get_note',
+				data: {					
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
+					main_ts_code: main_ts_code
+				},
+				
+			}).then((response) => {
+				if (response.status === 200) {
+					context.commit('note_data', {result: response.data})
+				}
+			}).catch((err) => {
+				console.log(err)
+			})
+		},
+		bs_note_data(context, param) {
+			const start_date = param.start_date;
+			const end_date = param.end_date;
+			const main_ts_code = param.main_ts_code;
+			
+			ajax.post({
+				url: 'note/get_bs_note',
+				data: {					
+					start_date: start_date.format('YYYY-MM-DD'),
+					end_date: end_date.format('YYYY-MM-DD'), 
+					main_ts_code: main_ts_code
+				},
+				
+			}).then((response) => {
+				if (response.status === 200) {
+					context.commit('bs_note_data', {result: response.data})
+				}
+			}).catch((err) => {
+				console.log(err)
+			})
+		},
 	}
 }

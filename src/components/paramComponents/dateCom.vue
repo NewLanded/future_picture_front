@@ -47,7 +47,7 @@
 	};
 </script>
 
-<style>
+<style scoped>
 	.box-border {
 		margin: 10px;
 	}

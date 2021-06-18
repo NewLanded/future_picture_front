@@ -1,14 +1,12 @@
 <template>
 	<div id="step">
-        1. 限制每个K线的宽度
-        2. 移仓换约的日期标志出来
 		<el-header class="header-split-line">
 			<el-row :gutter="20" type="flex">
 				<el-col :span="6">
 					<datecom @changeDate="changeEventDate" :dateComValue="dateComValue"></datecom>
 				</el-col>
 				<el-col :span="6">
-					<el-button style="margin-top:10px">下一日</el-button>
+					<el-button style="margin-top:10px" @click="nextDay">下一日</el-button>
 				</el-col>
 				<el-col :span="6">
 					<el-button style="margin-top:10px" @click="nextWeek">下一周</el-button>
@@ -21,11 +19,11 @@
 			</el-aside>
 			<el-main>
 				<h3 class="comment-height">日线 {{plot_data_date}}</h3>
-				<k_bar :print_data="day_data['plotted']" :key='3'></k_bar>
+				<k_bar :print_data="day_data['plotted']"  :contract_change_date="contract_change_date_by_main_ts_code" :key='3'></k_bar>
 				<h3 class="comment-height">周线</h3>
-				<k_bar :print_data="week_data['plotted']" :key='2'></k_bar>
+				<k_bar :print_data="week_data['plotted']"  :contract_change_date="contract_change_date_by_main_ts_code" :key='2'></k_bar>
 				<h3 class="comment-height">月线</h3>
-				<k_bar :print_data="month_data['plotted']" :key='1'></k_bar>
+				<k_bar :print_data="month_data['plotted']"  :contract_change_date="contract_change_date_by_main_ts_code" :key='1'></k_bar>
 			</el-main>
 		</el-container>
 		<!-- <router-view /> -->
@@ -65,6 +63,10 @@
 			aside_future_data() {
 				return this.$store.getters['future_info/aside_future_data']
 			},
+			contract_change_date_by_main_ts_code(){
+				let result = this.$store.state.future_info.contract_change_date_by_main_ts_code;
+				return result
+			}
 		},
 		watch: {
 			'$store.state.future_info.main_code_interval_point_data': {
@@ -96,7 +98,6 @@
 					let split_date = all_result_ori['D'][split_date_index].date
 					// 把日期搞到周五, 为 下一个星期 这个按钮做准备
 					split_date = this.dayjs(split_date).day(5).format("YYYY-MM-DD")
-					split_date = "2021-04-23"
 					this.plot_data_date = split_date
 
 					for (let freq_code in all_result_ori) {
@@ -137,24 +138,26 @@
 			point_picture_func(ts_code, end_date) {
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
-					// start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 3650 * 2 / 10),
-					start_date: end_date.add(-221, 'month'),
+					start_date: end_date.add(-180, 'month'),
 					end_date: end_date,
 					freq_code: 'M'
 				})
 				this.$store.dispatch('future_info/main_code_interval_point_data', {
 					ts_code: ts_code,
-					// start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 854 * 2 / 10),
-					start_date: end_date.add(-221, 'week'),
+					start_date: end_date.add(-180, 'week'),
 					end_date: end_date,
 					freq_code: 'W'
 				})
 				this.$store.dispatch('future_info/ts_code_interval_point_data', {
 					ts_code: ts_code,
-					// start_date: new Date(end_date.getTime() - 3600 * 1000 * 24 * 180 * 2 / 10),
-					start_date: end_date.add(-365, 'day'),
+					start_date: end_date.add(-270, 'day'),
 					end_date: end_date,
 					freq_code: 'D'
+				})
+				this.$store.dispatch('future_info/contract_change_date_by_main_ts_code', {
+					main_ts_code: ts_code,
+					start_date: end_date.add(-180, 'month'),
+					end_date: end_date
 				})
 			},
 
@@ -165,13 +168,19 @@
 			nextWeek() {
 				let all_data = {
 					D: this.day_data,
-					'W': this.week_data,
-					'M': this.month_data
+					W: this.week_data,
+					M: this.month_data
 				}
-				this.plot_data_date = this.dayjs(this.plot_data_date).day(12).format("YYYY-MM-DD")
+				
+				let date_now = this.dayjs(this.plot_data_date).day(12).format("YYYY-MM-DD")
+				// 对于国庆和新年等假期可能连续一周的情况做处理
+				if(all_data['D']['queued']['date'].length != 0 && all_data['D']['queued']['date'][0] > date_now){
+					date_now = this.dayjs(date_now).day(12).format("YYYY-MM-DD")
+				}
+				
 				let exists_date_flag = false
 				for (let freq_code in all_data) {
-					while (all_data[freq_code]['queued']['date'].length != 0 && all_data[freq_code]['queued']['date'][0] <= this.plot_data_date) {
+					while (all_data[freq_code]['queued']['date'].length != 0 && all_data[freq_code]['queued']['date'][0] <= date_now) {
 						all_data[freq_code]['plotted']['date'].splice(0, 1)
 						all_data[freq_code]['plotted']['data'].splice(0, 1)
 						all_data[freq_code]['plotted']['date'].push(all_data[freq_code]['queued']['date'].splice(0, 1)[0])
@@ -181,9 +190,38 @@
 				}
 				if (exists_date_flag == false) {
 					this.$message('已经是最后一条数据');
+				} else{
+					this.plot_data_date = date_now
+				}
+			},
+			nextDay() {
+				let all_data = {
+					D: this.day_data,
+					W: this.week_data,
+					M: this.month_data
+				}	
+				
+				let date_now = this.plot_data_date
+				let exists_date_flag = false
+				if(all_data['D']['queued']['date'].length != 0){
+					date_now = all_data['D']['queued']['date'][0]
+					
+					for (let freq_code in all_data) {
+						if (all_data[freq_code]['queued']['date'].length != 0 && all_data[freq_code]['queued']['date'][0] <= date_now) {
+							all_data[freq_code]['plotted']['date'].splice(0, 1)
+							all_data[freq_code]['plotted']['data'].splice(0, 1)
+							all_data[freq_code]['plotted']['date'].push(all_data[freq_code]['queued']['date'].splice(0, 1)[0])
+							all_data[freq_code]['plotted']['data'].push(all_data[freq_code]['queued']['data'].splice(0, 1)[0])
+							exists_date_flag = true
+						}
+					}
 				}
 				
-				console.log(all_data)
+				if (exists_date_flag == false) {
+					this.$message('已经是最后一条数据');
+				} else{
+					this.plot_data_date = date_now
+				}
 			}
 		},
 		components: {

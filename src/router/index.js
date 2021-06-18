@@ -3,11 +3,10 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import store from '../store/index.js'
 import Summarize from '../views/Summarize.vue'
-import Note from '../views/Note.vue'
 import NoteWrite from '../views/NoteWrite.vue'
 import Symbol from '../views/Symbol.vue'
-import State from '../views/State.vue'
 import Step from '../views/Step.vue'
+import Prebs from '../views/Prebs.vue'
 
 Vue.use(VueRouter)
 
@@ -45,29 +44,21 @@ const routes = [
 		}
 	},
 	{
-		path: '/note',
-		name: 'Note',
-		component: Note,
+		path: '/note-write',
+		name: 'NoteWrite',
+		component: NoteWrite,
 		meta: {
 			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
 		}
 	},
-	// {
-	// 	path: '/note-write',
-	// 	name: 'NoteWrite',
-	// 	component: NoteWrite,
-	// 	meta: {
-	// 		requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-	// 	}
-	// },
-	// {
-	// 	path: '/state',
-	// 	name: 'State',
-	// 	component: State,
-	// 	meta: {
-	// 		requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-	// 	}
-	// },
+	{
+		path: '/prebs',
+		name: 'Prebs',
+		component: Prebs,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
 ]
 
 const router = new VueRouter({

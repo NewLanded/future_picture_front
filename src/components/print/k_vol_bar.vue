@@ -39,7 +39,7 @@
 				let one_data = this.print_data['1'];
 				let three_data = this.print_data['3'];
 				let twenty_data = this.print_data['20'];
-
+				
 				option = {
 					tooltip: {
 						axisPointer: {
@@ -88,7 +88,6 @@
 								alignWithLabel: true
 							},
 							data: one_data.date,
-
 						},
 						{
 							show: false, //隐藏了x轴
@@ -98,7 +97,6 @@
 								alignWithLabel: true
 							},
 							data: three_data.date,
-
 						},
 						{
 							type: 'category',
@@ -107,7 +105,6 @@
 								alignWithLabel: true
 							},
 							data: twenty_data.date,
-
 						}
 					],
 					yAxis: [{
@@ -195,6 +192,7 @@
 					series: [{
 							name: '1 vol',
 							type: 'bar',
+							stack: 'first_1',
 							xAxisIndex: 0,
 							yAxisIndex: 0,
 							data: one_data.long,
@@ -206,6 +204,7 @@
 						{
 							name: '1 vol',
 							type: 'bar',
+							stack: 'first_1',
 							xAxisIndex: 0,
 							yAxisIndex: 0,
 							data: this.negative_array(one_data.short),
@@ -243,6 +242,7 @@
 						{
 							name: '3 vol',
 							type: 'bar',
+							stack: 'first_3',
 							xAxisIndex: 1,
 							yAxisIndex: 2,
 							data: three_data.long,
@@ -254,6 +254,7 @@
 						{
 							name: '3 vol',
 							type: 'bar',
+							stack: 'first_3',
 							xAxisIndex: 1,
 							yAxisIndex: 2,
 							data: this.negative_array(three_data.short),
@@ -291,6 +292,7 @@
 						{
 							name: '20 vol',
 							type: 'bar',
+							stack: 'first_20',
 							xAxisIndex: 2,
 							yAxisIndex: 4,
 							data: twenty_data.long,
@@ -302,6 +304,7 @@
 						{
 							name: '20 vol',
 							type: 'bar',
+							stack: 'first_20',
 							xAxisIndex: 2,
 							yAxisIndex: 4,
 							data: this.negative_array(twenty_data.short),
