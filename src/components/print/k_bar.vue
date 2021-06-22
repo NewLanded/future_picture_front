@@ -194,7 +194,7 @@
 							
 							
 						},
-						extraCssText: 'width:120px; white-space:pre-wrap; text-align:left' // tooltip的样式, 这里是设定宽度, 并且使用 \n 换行, 文字左侧对齐
+						extraCssText: 'width:280px; white-space:pre-wrap; text-align:left' // tooltip的样式, 这里是设定宽度, 并且使用 \n 换行, 文字左侧对齐
 					},
 					axisPointer: {
 						link: {

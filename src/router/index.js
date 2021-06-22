@@ -4,9 +4,14 @@ import Login from '../views/Login.vue'
 import store from '../store/index.js'
 import Summarize from '../views/Summarize.vue'
 import NoteWrite from '../views/NoteWrite.vue'
+import BsNoteWrite from '../views/BsNoteWrite.vue'
+import NormalNote from '../views/NormalNote.vue'
 import Symbol from '../views/Symbol.vue'
 import Step from '../views/Step.vue'
 import Prebs from '../views/Prebs.vue'
+import CalcGainloss from '../views/CalcGainloss.vue'
+import PointGap from '../views/PointGap.vue'
+
 
 Vue.use(VueRouter)
 
@@ -52,9 +57,41 @@ const routes = [
 		}
 	},
 	{
+		path: '/BsNoteWrite',
+		name: 'BsNoteWrite',
+		component: BsNoteWrite,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
+	{
+		path: '/NormalNote',
+		name: 'NormalNote',
+		component: NormalNote,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
+	{
 		path: '/prebs',
 		name: 'Prebs',
 		component: Prebs,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
+	{
+		path: '/CalcGainloss',
+		name: 'CalcGainloss',
+		component: CalcGainloss,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
+	{
+		path: '/PointGap',
+		name: 'PointGap',
+		component: PointGap,
 		meta: {
 			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
 		}

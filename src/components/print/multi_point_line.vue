@@ -31,6 +31,9 @@
 			},
 			echartsUpdate() {
 				var option;
+				
+				console.log("aaaaaaaaaaaaa")
+				console.log(this.print_data)
 
 				let date = this.print_data["date"];
 				let ts_code_list = []

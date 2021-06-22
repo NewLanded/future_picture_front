@@ -11,14 +11,25 @@
 				<freqCodeCom @changeFreqCode="changeFreqCodeComValue" :freqCodeComValue="freqCodeComValue"></freqCodeCom>
 			</el-col>
 		</el-header>
+		<el-header class="header-split-line">
+			<el-col :span="6">
+				<tradeTypeCom @changeTradeType="changeTradeType" :tradeTypeValue="tradeTypeValue"></tradeTypeCom>
+			</el-col>
+			<el-col :span="6">
+				<normalInputCom @changeComValue="changeBsNumber" :comValue="bs_number" comName="交易数量"></normalInputCom>
+			</el-col>
+			<el-col :span="6">
+				<normalInputCom @changeComValue="changeBsPoint" :comValue="bs_point" comName="交易价格"></normalInputCom>
+			</el-col>
+		</el-header>
 		<el-container>
 			<el-aside class="main-el-aside" width="200px">
 				<el-tree :data="aside_future_data" :props="$store.state.defaultProps" @node-click="aside_data_click"></el-tree>
 			</el-aside>
 			<el-main>
-				<h2>Note</h2>
-				<el-input type="textarea" :autosize="{ minRows: 10, maxRows: 50}" placeholder="请输入内容" v-model="note"></el-input>
-				<el-button type="primary" @click.native="commit_note">提交</el-button>
+				<h2>BS Note</h2>
+				<el-input type="textarea" :autosize="{ minRows: 10, maxRows: 50}" placeholder="请输入内容" v-model="bs_note"></el-input>
+				<el-button type="primary" @click.native="commit_bs_note">提交</el-button>
 			</el-main>
 		</el-container>
 		<!-- <router-view /> -->
@@ -29,24 +40,28 @@
 	import dateCom from '../components/paramComponents/dateCom.vue'
 	import tsCodeCom from '../components/paramComponents/tsCodeCom.vue'
 	import freqCodeCom from '../components/paramComponents/freqCodeCom.vue'
+	import tradeTypeCom from '../components/paramComponents/tradeTypeCom.vue'
+	import normalInputCom from '../components/paramComponents/normalInputCom.vue'
 	import ajax from '../assets/ajax.js'
 
 	export default {
-		// this.$store.commit('login/set_token', response.data.access_token)
-		// store.state.login.token
 		data() {
 			return {
 				mainTsCode: '',
 				dateComValue: this.dayjs(),
 				tsCodeComValue: '',
 				freqCodeComValue: '',
-				note: ""
+				tradeTypeValue: '',
+				bs_note: "",
+				bs_number: "",
+				bs_point: ""
 			};
 		},
 		computed: {
 			aside_future_data() {
 				return this.$store.getters['future_info/aside_future_data']
 			},
+
 		},
 		methods: {
 			aside_data_click(data) {
@@ -65,16 +80,28 @@
 			changeFreqCodeComValue(val) {
 				this.freqCodeComValue = val
 			},
-			commit_note() {
-				if (this.note && this.dateComValue && this.tsCodeComValue && this.freqCodeComValue) {
+			changeTradeType(val) {
+				this.tradeTypeValue = val
+			},
+			changeBsNumber(val) {
+				this.bs_number = val
+			},
+			changeBsPoint(val) {
+				this.bs_point = val
+			},
+			commit_bs_note() {
+				if (this.bs_note && this.dateComValue && this.tsCodeComValue && this.freqCodeComValue && this.tradeTypeValue && this.bs_number && this.bs_point) {
 					ajax.post({
-						url: 'note/note_write',
+						url: 'note/bs_note_write',
 						data: {
 							main_ts_code: this.mainTsCode,
 							ts_code: this.tsCodeComValue,
 							trade_date: this.dateComValue.format('YYYY-MM-DD'), 
 							freq_code: this.freqCodeComValue,
-							note: this.note
+							trade_type: this.tradeTypeValue,
+							number: this.bs_number,
+							point: this.bs_point,
+							note: this.bs_note
 						},
 						
 					}).then((response) => {
@@ -101,7 +128,9 @@
 		components: {
 			dateCom,
 			tsCodeCom,
-			freqCodeCom
+			freqCodeCom,
+			tradeTypeCom,
+			normalInputCom
 		}
 	};
 </script>

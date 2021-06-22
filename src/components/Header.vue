@@ -5,12 +5,38 @@
 				<div class="grid-content bg-purple">你应该走着去 而不是跑着去</div>
 			</el-col>
 			<el-col :span="16">
-				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#F5F5F5">
-					<el-menu-item index="1"><router-link to="/summarize" class="navFontSize">Summarize</router-link></el-menu-item>
-					<el-menu-item index="2"><router-link to="/symbol" class="navFontSize">Symbol</router-link></el-menu-item>
-					<el-menu-item index="3"><router-link to="/step" class="navFontSize">Step</router-link></el-menu-item>
-					<el-menu-item index="4"><router-link to="/Prebs" class="navFontSize">Prebs</router-link></el-menu-item>
-					<el-menu-item index="5"><router-link to="/note-write" class="navFontSize">NoteWrite</router-link></el-menu-item>
+				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
+				 background-color="#F5F5F5">
+					<el-menu-item index="1">
+						<router-link to="/summarize" class="navFontSize">Summarize</router-link>
+					</el-menu-item>
+					<el-menu-item index="2">
+						<router-link to="/symbol" class="navFontSize">Symbol</router-link>
+					</el-menu-item>
+					<el-menu-item index="3">
+						<router-link to="/PointGap" class="navFontSize">PointGap</router-link>
+					</el-menu-item>
+					<el-menu-item index="4">
+						<router-link to="/step" class="navFontSize">Step</router-link>
+					</el-menu-item>
+					<el-menu-item index="5">
+						<router-link to="/CalcGainloss" class="navFontSize">CalcGainloss</router-link>
+					</el-menu-item>
+					<el-menu-item index="6">
+						<router-link to="/Prebs" class="navFontSize">Prebs</router-link>
+					</el-menu-item>
+					<el-submenu index="7">
+						<template slot="title"><span class="navFontSize">Note</span></template>
+						<el-menu-item index="7-1">
+							<router-link to="/note-write" class="navFontSize">NoteWrite</router-link>
+						</el-menu-item>
+						<el-menu-item index="7-2">
+							<router-link to="/BsNoteWrite" class="navFontSize">BsNoteWrite</router-link>
+						</el-menu-item>
+						<el-menu-item index="7-3">
+							<router-link to="/NormalNote" class="navFontSize">NormalNote</router-link>
+						</el-menu-item>
+					</el-submenu>
 				</el-menu>
 			</el-col>
 		</el-row>
@@ -50,17 +76,17 @@
 			font-size: 140%;
 		}
 	}
-	
-	router-link{
+
+	router-link {
 		font-size: 140%;
 	}
 
 	a {
 		text-decoration: none;
 	}
-	
+
 	.navFontSize {
 		font-size: 120%;
-		color: #555555
+		color: #909399
 	}
 </style>
