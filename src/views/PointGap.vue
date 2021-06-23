@@ -54,7 +54,6 @@
 				return this.$store.getters['future_info/aside_future_data']
 			},
 			ts_code_interval_point_data() {
-				console.log(this.point_data.D)
 				return this.point_data
 			},
 

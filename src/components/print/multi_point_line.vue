@@ -44,7 +44,6 @@
 				option = {
 					title: {
 						text: '',
-						// text: '多品种走势'
 					},
 					tooltip: {
 						trigger: 'axis'
@@ -83,17 +82,10 @@
 						lineStyle: {
 							width: 1.5
 						}
-						// itemStyle: {
-						// 	normal: {
-						// 		lineStyle: {
-						// 			width: 1.5
-						// 		}
-						// 	}
-						// }
 					})
 				}
 
-				option && this.myChart.setOption(option);
+				option && this.myChart.setOption(option, true);
 			}
 
 		}

@@ -344,7 +344,7 @@
 				};
 
 
-				option && this.myChart.setOption(option);
+				option && this.myChart.setOption(option, true);
 			}
 
 		}
