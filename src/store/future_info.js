@@ -1,4 +1,4 @@
-import ajax from '../assets/ajax.js'
+import ajax from '../assets/ajax.js';
 
 
 export default {
@@ -232,7 +232,7 @@ export default {
                         });
 
                         add_symbol(data[key], children, id_list_now);
-                        id_list_now.forEach(function(element) {
+                        id_list_now.forEach(function (element) {
                             id_list.push(element);
                         });
                     }

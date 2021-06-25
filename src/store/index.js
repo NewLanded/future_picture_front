@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import login from './login.js'
 import future_info from './future_info.js'
+import login from './login.js'
 
 Vue.use(Vuex)
 

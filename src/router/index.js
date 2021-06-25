@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
 import store from '../store/index.js'
-import Summarize from '../views/Summarize.vue'
-import NoteWrite from '../views/NoteWrite.vue'
 import BsNoteWrite from '../views/BsNoteWrite.vue'
-import NormalNote from '../views/NormalNote.vue'
-import Symbol from '../views/Symbol.vue'
-import Step from '../views/Step.vue'
-import Prebs from '../views/Prebs.vue'
 import CalcGainloss from '../views/CalcGainloss.vue'
+import Login from '../views/Login.vue'
+import NormalNote from '../views/NormalNote.vue'
+import NoteWrite from '../views/NoteWrite.vue'
 import PointGap from '../views/PointGap.vue'
+import Prebs from '../views/Prebs.vue'
+import Step from '../views/Step.vue'
+import Summarize from '../views/Summarize.vue'
+import Symbol from '../views/Symbol.vue'
 
 
 Vue.use(VueRouter)

@@ -1,3 +1,6 @@
 module.exports = {
-    publicPath :'/front'
+    publicPath: '/front',
+    configureWebpack: {
+        devtool: 'source-map'
+    }
 }
