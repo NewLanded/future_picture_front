@@ -9,8 +9,14 @@
             <el-main>
                 <ul id="array-rendering">
                     <li v-for="(item, index) in note" :key="index">
-                        <div class="item-style">{{ item }}</div>
-                        <el-divider></el-divider>
+                        <template v-if="lodash.endsWith(item, '-----------------------------------')">
+                            <p class="item-style-title">{{item.split('-----------------------------------')[0]}}</p>
+                            <el-divider></el-divider>
+                        </template>
+                        <template v-else>
+                            <div class="item-style">{{ item }}</div>
+                            <el-divider></el-divider>
+                        </template>
                     </li>
                 </ul>
             </el-main>
@@ -67,7 +73,11 @@ export default {
 <style lang="less" scoped>
 .item-style {
     text-align: left;
-    font-size: 18px;
+    font-size: 16px;
     text-indent: 32px;
+}
+.item-style-title {
+    text-align: left;
+    font-size: 20px;
 }
 </style>
