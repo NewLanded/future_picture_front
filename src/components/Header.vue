@@ -27,12 +27,15 @@
                     <el-submenu index="7">
                         <template slot="title"><span class="navFontSize">Note</span></template>
                         <el-menu-item index="7-1">
-                            <router-link to="/note-write" class="navFontSize">NoteWrite</router-link>
+                            <router-link to="/CommonNoteWrite" class="navFontSize">CommonNoteWrite</router-link>
                         </el-menu-item>
                         <el-menu-item index="7-2">
-                            <router-link to="/BsNoteWrite" class="navFontSize">BsNoteWrite</router-link>
+                            <router-link to="/note-write" class="navFontSize">NoteWrite</router-link>
                         </el-menu-item>
                         <el-menu-item index="7-3">
+                            <router-link to="/BsNoteWrite" class="navFontSize">BsNoteWrite</router-link>
+                        </el-menu-item>
+                        <el-menu-item index="7-4">
                             <router-link to="/NormalNote" class="navFontSize">NormalNote</router-link>
                         </el-menu-item>
                     </el-submenu>

@@ -1,5 +1,5 @@
 <template>
-    <div id="summarize">
+    <div id="noteWrite">
         <el-header class="header-split-line">
             <el-col :span="6">
                 <dateCom @changeDate="changeEventDate" :dateComValue="dateComValue"></dateCom>

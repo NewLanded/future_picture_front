@@ -1,5 +1,5 @@
 <template>
-    <div id="note">
+    <div id="pointGap">
         <el-header class="header-split-line">
             <el-row :gutter="20" type="flex">
                 <el-col :span="6">
