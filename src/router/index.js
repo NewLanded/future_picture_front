@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import store from '../store/index.js'
 import BsNoteWrite from '../views/BsNoteWrite.vue'
 import CalcGainloss from '../views/CalcGainloss.vue'
+import CommonNoteWrite from '../views/CommonNoteWrite.vue'
 import Login from '../views/Login.vue'
 import NormalNote from '../views/NormalNote.vue'
 import NoteWrite from '../views/NoteWrite.vue'
@@ -11,7 +12,6 @@ import Prebs from '../views/Prebs.vue'
 import Step from '../views/Step.vue'
 import Summarize from '../views/Summarize.vue'
 import Symbol from '../views/Symbol.vue'
-
 
 Vue.use(VueRouter)
 
@@ -68,6 +68,14 @@ const routes = [
 		path: '/NormalNote',
 		name: 'NormalNote',
 		component: NormalNote,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
+	{
+		path: '/CommonNoteWrite',
+		name: 'CommonNoteWrite',
+		component: CommonNoteWrite,
 		meta: {
 			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
 		}

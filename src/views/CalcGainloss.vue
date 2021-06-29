@@ -1,5 +1,5 @@
 <template>
-    <div id="summarize">
+    <div id="calcGainLoss">
         <el-header class="header-split-line">
         </el-header>
         <el-container>

@@ -1,5 +1,5 @@
 <template>
-    <div class="login-container">
+    <div class="login-container" id="login">
         <el-form :model="ruleForm2" :rules="rules2" status-icon ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-page">
             <h3 class="title">系统登录</h3>
             <el-form-item prop="username">
