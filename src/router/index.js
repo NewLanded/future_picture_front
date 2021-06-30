@@ -10,6 +10,7 @@ import NoteWrite from '../views/NoteWrite.vue'
 import PointGap from '../views/PointGap.vue'
 import Prebs from '../views/Prebs.vue'
 import Step from '../views/Step.vue'
+import StrategyResult from '../views/StrategyResult.vue'
 import Summarize from '../views/Summarize.vue'
 import Symbol from '../views/Symbol.vue'
 
@@ -100,6 +101,14 @@ const routes = [
 		path: '/PointGap',
 		name: 'PointGap',
 		component: PointGap,
+		meta: {
+			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+		}
+	},
+	{
+		path: '/StrategyResult',
+		name: 'StrategyResult',
+		component: StrategyResult,
 		meta: {
 			requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
 		}

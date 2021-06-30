@@ -24,18 +24,21 @@
                     <el-menu-item index="6">
                         <router-link to="/Prebs" class="navFontSize">Prebs</router-link>
                     </el-menu-item>
-                    <el-submenu index="7">
+                    <el-menu-item index="7">
+                        <router-link to="/StrategyResult" class="navFontSize">StrategyResult</router-link>
+                    </el-menu-item>
+                    <el-submenu index="8">
                         <template slot="title"><span class="navFontSize">Note</span></template>
-                        <el-menu-item index="7-1">
+                        <el-menu-item index="8-1">
                             <router-link to="/CommonNoteWrite" class="navFontSize">CommonNoteWrite</router-link>
                         </el-menu-item>
-                        <el-menu-item index="7-2">
+                        <el-menu-item index="8-2">
                             <router-link to="/note-write" class="navFontSize">NoteWrite</router-link>
                         </el-menu-item>
-                        <el-menu-item index="7-3">
+                        <el-menu-item index="8-3">
                             <router-link to="/BsNoteWrite" class="navFontSize">BsNoteWrite</router-link>
                         </el-menu-item>
-                        <el-menu-item index="7-4">
+                        <el-menu-item index="8-4">
                             <router-link to="/NormalNote" class="navFontSize">NormalNote</router-link>
                         </el-menu-item>
                     </el-submenu>
@@ -88,7 +91,7 @@ a {
 }
 
 .navFontSize {
-    font-size: 120%;
+    font-size: 115%;
     color: #909399;
 }
 </style>
