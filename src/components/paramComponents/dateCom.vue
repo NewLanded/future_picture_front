@@ -13,7 +13,7 @@ export default {
             date: this.$attrs.dateComValue,
             pickerOptions: {
                 disabledDate(time) {
-                    return time.getTime() > Date.now() + 24 * 60 * 60 * 1000
+                    return time.getTime() > Date.now() + 24 * 60 * 60 * 1000 * 14
                 },
                 shortcuts: [
                     {

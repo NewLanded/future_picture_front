@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import ajax from '../../assets/ajax.js'
-
 export default {
     props: ['print_data', 'contract_change_date', 'note_data', 'bs_note_data'],
     mounted() {
@@ -68,6 +66,20 @@ export default {
             let contract_change_date_ori = this.contract_change_date
             let note_data_ori = this.note_data
             let bs_note_data_ori = this.bs_note_data
+
+            // 补足不够数量的数据, 使每个图的K线数量一致
+            // 补充的数据格式是不对的, 但是这种不对的格式能显示出正确的效果, 不清楚原因, 反而补充对的格式会导致失败
+            // 这种错的格式, 可能只对某些版本生效, 换了之后可能就不能用了
+            let y_min = data[0][2]
+            for (let i in data) {
+                y_min = Math.min(y_min, data[i][2])
+            }
+            if (data.length <= 180) {
+                for (let i = 0; i <= 180 - data.length; i++) {
+                    data.push(0)
+                    date.push('')
+                }
+            }
 
             let note_data = {}
             for (let index in note_data_ori) {
@@ -206,8 +218,6 @@ export default {
                 },
                 grid: [
                     {
-                        // x: '7%',
-                        // y: '7%',
                         height: '60%',
                         left: '10%',
                         bottom: '35%'
@@ -215,8 +225,6 @@ export default {
                         // show: true
                     },
                     {
-                        // x2: '7%',
-                        // y2: '7%',
                         height: '20%',
                         left: '10%',
                         bottom: '5%'
@@ -238,7 +246,13 @@ export default {
                         axisLabel: {
                             //interval:showNum,  //x轴显示的数量，我这里是动态算的
                         },
-                        data: date
+                        data: date,
+
+                        splitNumber: 200,
+                        min: 'dataMin',
+                        max: 'dataMax',
+                        scale: true,
+                        boundaryGap: false
                     },
                     {
                         type: 'category',
@@ -249,7 +263,12 @@ export default {
                         axisLabel: {
                             //interval:showNum,
                         },
-                        data: date
+                        data: date,
+                        splitNumber: 200,
+                        min: 'dataMin',
+                        max: 'dataMax',
+                        scale: true,
+                        boundaryGap: false
                     }
                 ],
                 //y轴，不管有几个x轴，几个y轴，或者图，只要找到他对应的grid图的序号索引就可以精准匹配
@@ -267,7 +286,7 @@ export default {
                             padding: 25
                         },
                         position: 'left',
-                        min: 'dataMin'
+                        min: y_min
                     },
                     {
                         type: 'value',
