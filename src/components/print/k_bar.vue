@@ -1,5 +1,5 @@
 <template>
-    <div style="width: auto;height: 500px" id="main" ref="main"></div>
+    <div style="width: 1200px;height: 700px" id="main" ref="main"></div>
 </template>
 
 <script>
@@ -59,28 +59,102 @@ export default {
         echartsInit() {
             this.myChart = this.$echarts.init(this.$refs.main)
         },
-        echartsUpdate() {
-            var option
-            let date = this.print_data.date
-            let data = this.print_data.data
-            let contract_change_date_ori = this.contract_change_date
-            let note_data_ori = this.note_data
-            let bs_note_data_ori = this.bs_note_data
+        /*
+         * 计算MACD
+         * @param {number} short 快速EMA时间窗口
+         * @param {number} long 慢速EMA时间窗口
+         * @param {number} mid dea时间窗口
+         * @param {array} data 输入数据
+         */
+        calcMACD(short, long, mid, data) {
+            function calcEMA(n, data) {
+                let a = 2 / (n + 1)
 
-            // 补足不够数量的数据, 使每个图的K线数量一致
-            // 补充的数据格式是不对的, 但是这种不对的格式能显示出正确的效果, 不清楚原因, 反而补充对的格式会导致失败
-            // 这种错的格式, 可能只对某些版本生效, 换了之后可能就不能用了
+                let ema = [data[0]]
+                let l = data.length
+                for (let i = 1; i < l; i++) {
+                    ema.push((a * data[i] + (1 - a) * ema[i - 1]).toFixed(3))
+                }
+
+                return ema
+            }
+
+            /*
+             * 计算DIF快线，用于MACD
+             * @param {number} short 快速EMA时间窗口
+             * @param {number} long 慢速EMA时间窗口
+             * @param {array} data 输入数据
+             */
+            function calcDIF(short, long, data) {
+                var i, l, dif, emaShort, emaLong
+                dif = []
+                emaShort = calcEMA(short, data)
+                emaLong = calcEMA(long, data)
+                for (i = 0, l = data.length; i < l; i++) {
+                    dif.push((emaShort[i] - emaLong[i]).toFixed(3))
+                }
+                return dif
+            }
+
+            /*
+             * 计算DEA慢线，用于MACD
+             * @param {number} mid 对dif的时间窗口
+             * @param {array} dif 输入数据
+             */
+            function calcDEA(mid, dif) {
+                return calcEMA(mid, dif)
+            }
+
+            var i, l, dif, dea, macd, result
+            result = {}
+            macd = []
+            dif = calcDIF(short, long, data)
+            dea = calcDEA(mid, dif)
+            for (i = 0, l = data.length; i < l; i++) {
+                macd.push(((dif[i] - dea[i]) * 2).toFixed(3))
+            }
+            result.dif = dif
+            result.dea = dea
+            result.macd = macd
+            return result
+        },
+        calculateMA(dayCount, data) {
+            var result = []
+            for (var i = 0, len = data.length; i < len; i++) {
+                if (i < dayCount) {
+                    result.push('-')
+                    continue
+                }
+                var sum = 0
+                for (var j = 0; j < dayCount; j++) {
+                    sum += data[i - j][1]
+                }
+                result.push(sum / dayCount)
+            }
+            return result
+        },
+        getMinValueFromK(data) {
             let y_min = data[0][2]
             for (let i in data) {
                 y_min = Math.min(y_min, data[i][2])
             }
-            if (data.length <= 180) {
-                for (let i = 0; i <= 180 - data.length; i++) {
+            return y_min
+        },
+        completeKData(date, data) {
+            // 补足不够数量的数据, 使每个图的K线数量一致
+            // 补充的数据格式是不对的, 但是这种不对的格式能显示出正确的效果, 不清楚原因, 反而补充对的格式会导致失败
+            // 这种错的格式, 可能只对某些版本生效, 换了之后可能就不能用了
+            if (data.length <= 160) {
+                for (let i = 0; i <= 160 - data.length; i++) {
                     data.push(0)
                     date.push('')
                 }
+            } else {
+                data.splice(0, data.length - 160)
+                date.splice(0, date.length - 160)
             }
-
+        },
+        formatNoteData(date, note_data_ori) {
             let note_data = {}
             for (let index in note_data_ori) {
                 let date_now = note_data_ori[index]['trade_date']
@@ -107,12 +181,17 @@ export default {
 
                 note_data[date_now] += note_now
             }
-
+            return note_data
+        },
+        getHighPoint(date, data) {
             let date_high_point_map = {}
             for (let index in date) {
                 date_high_point_map[date[index]] = data[index][3]
             }
-
+            return date_high_point_map
+        },
+        getBsNoteDataFormat(date, bs_note_data_ori, note_data, date_high_point_map) {
+            // bs_note_data_format 用来在图上标志交易的位置, 笔记写到 note_data 中, 方便展示
             let bs_note_data = {}
             for (let index in bs_note_data_ori) {
                 let date_now = bs_note_data_ori[index]['trade_date']
@@ -145,6 +224,7 @@ export default {
                 let note_now = note_now_list.join('\n')
                 note_data[date_now] += note_now
             }
+
             let bs_note_data_format = []
             for (let date_now in bs_note_data) {
                 bs_note_data_format.push({
@@ -156,9 +236,12 @@ export default {
                 })
             }
 
+            return bs_note_data_format
+        },
+        getContractChangeDate(date, contract_change_date_ori) {
             // contract_change_date_ori = JSON.parse(JSON.stringify(contract_change_date_ori))  // 避免循环监听
             // contract_change_date_ori.sort()
-            let format_contract_change_date = []
+            let contract_change_date = []
             for (let index in contract_change_date_ori) {
                 let date_now = contract_change_date_ori[index]
                 date_now = this.dayjs(date_now)
@@ -173,13 +256,32 @@ export default {
                 }
 
                 date_now = date_now.format('YYYY-MM-DD')
-                format_contract_change_date.push({
+                contract_change_date.push({
                     xAxis: date_now
                 })
             }
-            format_contract_change_date.sort((a, b) => {
+
+            contract_change_date.sort((a, b) => {
                 return a.xAxis - b.xAxis
             })
+            return contract_change_date
+        },
+        echartsUpdate() {
+            var option
+            let date = this.print_data.date
+            let data = this.print_data.data
+            let contract_change_date_ori = this.contract_change_date
+            let note_data_ori = this.note_data
+            let bs_note_data_ori = this.bs_note_data
+
+            this.completeKData(date, data)
+            let y_min = this.getMinValueFromK(data)
+
+            let note_data = this.formatNoteData(date, note_data_ori)
+            let date_high_point_map = this.getHighPoint(date, data)
+            let bs_note_data_format = this.getBsNoteDataFormat(date, bs_note_data_ori, note_data, date_high_point_map)
+
+            let contract_change_date = this.getContractChangeDate(date, contract_change_date_ori)
 
             let close = this.print_data.data.map(function (item) {
                 return item[1]
@@ -326,7 +428,7 @@ export default {
                                 type: 'dashed',
                                 color: 'rgba(128, 128, 128, 0.4)'
                             },
-                            data: format_contract_change_date
+                            data: contract_change_date
                         },
                         markPoint: {
                             label: {
@@ -398,81 +500,6 @@ export default {
                 ]
             }
             option && this.myChart.setOption(option, true)
-        },
-
-        /*
-         * 计算MACD
-         * @param {number} short 快速EMA时间窗口
-         * @param {number} long 慢速EMA时间窗口
-         * @param {number} mid dea时间窗口
-         * @param {array} data 输入数据
-         */
-        calcMACD(short, long, mid, data) {
-            function calcEMA(n, data) {
-                let a = 2 / (n + 1)
-
-                let ema = [data[0]]
-                let l = data.length
-                for (let i = 1; i < l; i++) {
-                    ema.push((a * data[i] + (1 - a) * ema[i - 1]).toFixed(3))
-                }
-
-                return ema
-            }
-
-            /*
-             * 计算DIF快线，用于MACD
-             * @param {number} short 快速EMA时间窗口
-             * @param {number} long 慢速EMA时间窗口
-             * @param {array} data 输入数据
-             */
-            function calcDIF(short, long, data) {
-                var i, l, dif, emaShort, emaLong
-                dif = []
-                emaShort = calcEMA(short, data)
-                emaLong = calcEMA(long, data)
-                for (i = 0, l = data.length; i < l; i++) {
-                    dif.push((emaShort[i] - emaLong[i]).toFixed(3))
-                }
-                return dif
-            }
-
-            /*
-             * 计算DEA慢线，用于MACD
-             * @param {number} mid 对dif的时间窗口
-             * @param {array} dif 输入数据
-             */
-            function calcDEA(mid, dif) {
-                return calcEMA(mid, dif)
-            }
-
-            var i, l, dif, dea, macd, result
-            result = {}
-            macd = []
-            dif = calcDIF(short, long, data)
-            dea = calcDEA(mid, dif)
-            for (i = 0, l = data.length; i < l; i++) {
-                macd.push(((dif[i] - dea[i]) * 2).toFixed(3))
-            }
-            result.dif = dif
-            result.dea = dea
-            result.macd = macd
-            return result
-        },
-        calculateMA(dayCount, data) {
-            var result = []
-            for (var i = 0, len = data.length; i < len; i++) {
-                if (i < dayCount) {
-                    result.push('-')
-                    continue
-                }
-                var sum = 0
-                for (var j = 0; j < dayCount; j++) {
-                    sum += data[i - j][1]
-                }
-                result.push(sum / dayCount)
-            }
-            return result
         }
     }
 }
