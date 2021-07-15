@@ -1,5 +1,6 @@
 <template>
-    <div style="width: 1200px;height: 700px" id="main" ref="main"></div>
+    <!-- <div style="width: 1200px;height: 700px" id="main" ref="main"></div> -->
+    <div :style="printStyle" id="main" ref="main"></div>
 </template>
 
 <script>
@@ -11,7 +12,11 @@ export default {
     data() {
         return {
             myChart: '',
-            timeout_handler: ''
+            timeout_handler: '',
+            printStyle: {
+                width: '1200px',
+                height: '700px'
+            }
         }
     },
     watch: {
@@ -145,10 +150,10 @@ export default {
             // 补充的数据格式是不对的, 但是这种不对的格式能显示出正确的效果, 不清楚原因, 反而补充对的格式会导致失败
             // 这种错的格式, 可能只对某些版本生效, 换了之后可能就不能用了
             if (data.length <= 160) {
-                for (let i = 0; i <= 160 - data.length; i++) {
-                    data.push(0)
-                    date.push('')
-                }
+                // for (let i = 0; i <= 160 - data.length; i++) {
+                //     data.push(0)
+                //     date.push('')
+                // }
             } else {
                 data.splice(0, data.length - 160)
                 date.splice(0, date.length - 160)
@@ -276,6 +281,12 @@ export default {
 
             this.completeKData(date, data)
             let y_min = this.getMinValueFromK(data)
+
+            // 更新图的大小, 使 日 周 月 K线宽度看起来差不多
+            // 使用 this.printStyle.width = (1200 / 160) * data.length + 'px' 没用, 可能是响应速度比较慢
+            this.$refs.main.style.width = (1200 / 160) * data.length + 'px'
+            this.myChart.clear()
+            this.myChart.resize()
 
             let note_data = this.formatNoteData(date, note_data_ori)
             let date_high_point_map = this.getHighPoint(date, data)
@@ -499,6 +510,7 @@ export default {
                     }
                 ]
             }
+
             option && this.myChart.setOption(option, true)
         }
     }
