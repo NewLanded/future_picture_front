@@ -2,7 +2,7 @@
     <el-header class="header-split-line">
         <el-row :gutter="20" type="flex" justify="end" align="middle">
             <el-col :span="8" align="left" id="title">
-                <div class="grid-content bg-purple">你应该走着去 而不是跑着去</div>
+                <div class="grid-content bg-purple">胜者, 先胜而后求战. 败者, 先战而后求胜</div>
             </el-col>
             <el-col :span="16">
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#F5F5F5">
