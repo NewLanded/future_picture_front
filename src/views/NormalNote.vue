@@ -43,7 +43,7 @@ export default {
     },
     mounted() {
         ajax.post({
-            url: 'note/get_file_note',
+            url: 'note/get_file_note_split',
             data: {
                 file_name: 'normal_note'
             }

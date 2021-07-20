@@ -1,10 +1,10 @@
-import { aside_future_info } from '../../config.host.js';
+// import { aside_future_info } from '../../config.host.js';
 import ajax from '../assets/ajax.js';
 
 export default {
     namespaced: true,
     state: () => ({
-        future_info_ori: aside_future_info,
+        future_info_ori: {},
         defaultProps: {
             children: 'children',
             label: 'label'
@@ -69,6 +69,9 @@ export default {
         }
     },
     mutations: {
+        set_future_info: (state, data) => {
+            state.future_info_ori = data
+        },
         main_code_interval_raise_fall_data: (state, data) => {
             const freq_code = data.freq_code;
             state.main_code_interval_raise_fall_data[freq_code] = data.result;

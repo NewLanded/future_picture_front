@@ -63,9 +63,28 @@ export default {
                             if (response.status === 200) {
                                 this.$store.commit('login/set_token', response.data.access_token)
                                 this.$store.commit('login/set_user', this.ruleForm2.username)
-                                this.$router.push({
-                                    path: '/summarize'
+
+                                ajax.post({
+                                    url: 'note/get_file_note_json',
+                                    data: {
+                                        file_name: 'aside_future_info'
+                                    }
                                 })
+                                    .then((response) => {
+                                        if (response.status === 200) {
+                                            this.$store.commit('future_info/set_future_info', response.data)
+                                            this.$router.push({
+                                                path: '/summarize'
+                                            })
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.log(err)
+                                        this.$message({
+                                            message: '获取 个券列表 失败',
+                                            type: 'error'
+                                        })
+                                    })
                             }
                         })
                         .catch((err) => {
