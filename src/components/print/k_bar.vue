@@ -491,7 +491,7 @@ export default {
                         yAxisIndex: 1,
                         data: macd.dif,
                         lineStyle: {
-                            color: '#da6ee8',
+                            color: '#666666',
                             width: 1
                         }
                     },
@@ -504,7 +504,7 @@ export default {
                         data: macd.dea,
                         lineStyle: {
                             opacity: 0.8,
-                            color: '#39afe6',
+                            color: '#FF9933',
                             width: 1
                         }
                     }
