@@ -4,7 +4,7 @@ import ajax from '../assets/ajax.js';
 export default {
     namespaced: true,
     state: () => ({
-        future_info_ori: {},
+        future_info_ori: JSON.parse(window.sessionStorage.getItem('future_info_ori')),
         defaultProps: {
             children: 'children',
             label: 'label'
@@ -71,6 +71,7 @@ export default {
     mutations: {
         set_future_info: (state, data) => {
             state.future_info_ori = data
+            window.sessionStorage.setItem('future_info_ori', JSON.stringify(data))
         },
         main_code_interval_raise_fall_data: (state, data) => {
             const freq_code = data.freq_code;

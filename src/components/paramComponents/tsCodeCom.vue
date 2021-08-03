@@ -21,13 +21,29 @@ export default {
             let date = new Date()
             let year = date.getFullYear().toString().slice(2)
 
-            for (var i = 1; i <= 12; i++) {
-                if (i < 10) {
-                    result.push({ value: mainTsCodeList[0] + year + '0' + i + '.' + mainTsCodeList[1] })
-                } else {
-                    result.push({ value: mainTsCodeList[0] + year + i + '.' + mainTsCodeList[1] })
-                }
+            for (let i of [1, 5, 9]) {
+                result.push({ value: mainTsCodeList[0] + year + '0' + i + '.' + mainTsCodeList[1] })
             }
+            year = (parseInt(year) + 1).toString()
+            for (let i of [1, 5, 9]) {
+                result.push({ value: mainTsCodeList[0] + year + '0' + i + '.' + mainTsCodeList[1] })
+            }
+
+            // for (let i = 1; i <= 12; i++) {
+            //     if (i < 10) {
+            //         result.push({ value: mainTsCodeList[0] + year + '0' + i + '.' + mainTsCodeList[1] })
+            //     } else {
+            //         result.push({ value: mainTsCodeList[0] + year + i + '.' + mainTsCodeList[1] })
+            //     }
+            // }
+            // year = year + 1
+            // for (let i = 1; i <= 12; i++) {
+            //     if (i < 10) {
+            //         result.push({ value: mainTsCodeList[0] + year + '0' + i + '.' + mainTsCodeList[1] })
+            //     } else {
+            //         result.push({ value: mainTsCodeList[0] + year + i + '.' + mainTsCodeList[1] })
+            //     }
+            // }
             return result
         }
     },
