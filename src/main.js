@@ -5,10 +5,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 import * as lodash from 'lodash';
 import Vue from 'vue';
 import App from './App.vue';
+import ajax from './assets/ajax.js';
 import './assets/global.css'; /*引入公共样式*/
 import router from './router';
 import store from './store';
 
+
+Vue.prototype.ajax = ajax;
 
 Vue.use(ElementUI);
 
@@ -22,7 +25,7 @@ Vue.prototype.dayjs = dayjs;
 Vue.config.productionTip = false
 
 new Vue({
-	router,
-	store,
-	render: h => h(App)
+  router,
+  store,
+  render: h => h(App)
 }).$mount('#app')

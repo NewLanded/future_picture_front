@@ -37,7 +37,6 @@
 import datecom from '../components/paramComponents/dateCom.vue'
 import multi_point_line from '../components/print/multi_point_line.vue'
 import tsCodeMultiSelectCom from '../components/paramComponents/tsCodeMultiSelectCom.vue'
-import ajax from '../assets/ajax.js'
 
 export default {
     data() {
@@ -80,15 +79,16 @@ export default {
                     start_date_now = end_date_now.add(-180, 'week')
                 }
 
-                ajax.post({
-                    url: 'summarize/ts_code_close_point_data_relative_by_oldest_code',
-                    data: {
-                        start_date: start_date_now.format('YYYY-MM-DD'),
-                        end_date: end_date_now.format('YYYY-MM-DD'),
-                        ts_code_list: this.ts_code_list,
-                        freq_code: freq_code
-                    }
-                })
+                this.ajax
+                    .post({
+                        url: 'summarize/ts_code_close_point_data_relative_by_oldest_code',
+                        data: {
+                            start_date: start_date_now.format('YYYY-MM-DD'),
+                            end_date: end_date_now.format('YYYY-MM-DD'),
+                            ts_code_list: this.ts_code_list,
+                            freq_code: freq_code
+                        }
+                    })
                     .then((response) => {
                         if (response.status === 200) {
                             this.update_point_data(freq_code, response.data)

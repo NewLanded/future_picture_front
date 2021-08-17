@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import ajax from '../assets/ajax.js'
 export default {
     data() {
         return {
@@ -41,12 +40,13 @@ export default {
         }
     },
     mounted() {
-        ajax.post({
-            url: 'note/get_json_data',
-            data: {
-                key_name: 'prebs'
-            }
-        })
+        this.ajax
+            .post({
+                url: 'note/get_json_data',
+                data: {
+                    key_name: 'prebs'
+                }
+            })
             .then((response) => {
                 if (response.status === 200) {
                     let data_format = []

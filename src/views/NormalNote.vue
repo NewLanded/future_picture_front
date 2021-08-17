@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import ajax from '../assets/ajax.js'
-
 export default {
     // this.$store.commit('login/set_token', response.data.access_token)
     // store.state.login.token
@@ -42,12 +40,13 @@ export default {
         }
     },
     mounted() {
-        ajax.post({
-            url: 'note/get_file_note_split',
-            data: {
-                file_name: 'normal_note'
-            }
-        })
+        this.ajax
+            .post({
+                url: 'note/get_file_note_split',
+                data: {
+                    file_name: 'normal_note'
+                }
+            })
             .then((response) => {
                 if (response.status === 200) {
                     this.note = response.data

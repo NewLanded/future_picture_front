@@ -27,7 +27,4 @@ export default {
 </script>
 
 <style scoped>
-.box-border {
-    margin: 10px;
-}
 </style>

@@ -1,6 +1,6 @@
 <template>
     <!-- <div style="width: 1200px;height: 700px" id="main" ref="main"></div> -->
-    <div :style="printStyle" id="main" ref="main"></div>
+    <div :style="print_style" id="main" ref="main"></div>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
         return {
             myChart: '',
             timeout_handler: '',
-            printStyle: {
+            print_style: {
                 width: '1200px',
                 height: '700px'
             }
@@ -139,11 +139,16 @@ export default {
             return result
         },
         getMinValueFromK(data) {
-            let y_min = data[0][2]
-            for (let i in data) {
-                y_min = Math.min(y_min, data[i][2])
-            }
-            return y_min
+            // let y_min = data[0][2]
+            // for (let i in data) {
+            //     y_min = Math.min(y_min, data[i][2])
+            // }
+            // return y_min
+
+            let y_min = this.lodash.minBy(data, (o) => {
+                return o[2]
+            })
+            return y_min[2]
         },
         completeKData(date, data) {
             // 补足不够数量的数据, 使每个图的K线数量一致
@@ -283,7 +288,7 @@ export default {
             let y_min = this.getMinValueFromK(data)
 
             // 更新图的大小, 使 日 周 月 K线宽度看起来差不多
-            // 使用 this.printStyle.width = (1200 / 160) * data.length + 'px' 没用, 可能是响应速度比较慢
+            // 使用 this.print_style.width = (1200 / 160) * data.length + 'px' 没用, 可能是响应速度比较慢
             this.$refs.main.style.width = (1200 / 160) * data.length + 'px'
             this.myChart.clear()
             this.myChart.resize()

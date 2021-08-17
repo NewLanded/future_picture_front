@@ -42,7 +42,6 @@ import tsCodeCom from '../components/paramComponents/tsCodeCom.vue'
 import freqCodeCom from '../components/paramComponents/freqCodeCom.vue'
 import tradeTypeCom from '../components/paramComponents/tradeTypeCom.vue'
 import normalInputCom from '../components/paramComponents/normalInputCom.vue'
-import ajax from '../assets/ajax.js'
 
 export default {
     data() {
@@ -89,19 +88,20 @@ export default {
         },
         commit_bs_note() {
             if (this.bs_note && this.dateComValue && this.tsCodeComValue && this.freqCodeComValue && this.tradeTypeValue && this.bs_number && this.bs_point) {
-                ajax.post({
-                    url: 'note/bs_note_write',
-                    data: {
-                        main_ts_code: this.mainTsCode,
-                        ts_code: this.tsCodeComValue,
-                        trade_date: this.dateComValue.format('YYYY-MM-DD'),
-                        freq_code: this.freqCodeComValue,
-                        trade_type: this.tradeTypeValue,
-                        number: this.bs_number,
-                        point: this.bs_point,
-                        note: this.bs_note
-                    }
-                })
+                this.ajax
+                    .post({
+                        url: 'note/bs_note_write',
+                        data: {
+                            main_ts_code: this.mainTsCode,
+                            ts_code: this.tsCodeComValue,
+                            trade_date: this.dateComValue.format('YYYY-MM-DD'),
+                            freq_code: this.freqCodeComValue,
+                            trade_type: this.tradeTypeValue,
+                            number: this.bs_number,
+                            point: this.bs_point,
+                            note: this.bs_note
+                        }
+                    })
                     .then((response) => {
                         if (response.status === 200) {
                             this.$message({

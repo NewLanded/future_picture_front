@@ -17,7 +17,6 @@
 
 <script>
 import Qs from 'qs'
-import ajax from '../assets/ajax.js'
 
 export default {
     data() {
@@ -48,28 +47,30 @@ export default {
         submitLogin: function (event) {
             this.$refs.ruleForm2.validate((valid) => {
                 if (valid) {
-                    ajax.post({
-                        url: 'token',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        data: Qs.stringify({
-                            grant_type: 'password',
-                            username: this.ruleForm2.username,
-                            password: this.ruleForm2.password
+                    this.ajax
+                        .post({
+                            url: 'token',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            data: Qs.stringify({
+                                grant_type: 'password',
+                                username: this.ruleForm2.username,
+                                password: this.ruleForm2.password
+                            })
                         })
-                    })
                         .then((response) => {
                             if (response.status === 200) {
                                 this.$store.commit('login/set_token', response.data.access_token)
                                 this.$store.commit('login/set_user', this.ruleForm2.username)
 
-                                ajax.post({
-                                    url: 'note/get_file_note_json',
-                                    data: {
-                                        file_name: 'aside_future_info'
-                                    }
-                                })
+                                this.ajax
+                                    .post({
+                                        url: 'note/get_file_note_json',
+                                        data: {
+                                            file_name: 'aside_future_info'
+                                        }
+                                    })
                                     .then((response) => {
                                         if (response.status === 200) {
                                             this.$store.commit('future_info/set_future_info', response.data)

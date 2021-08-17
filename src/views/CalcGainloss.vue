@@ -39,7 +39,6 @@
 <script>
 import normalInputCom from '../components/paramComponents/normalInputCom.vue'
 import InputSelectionCom from '../components/paramComponents/InputSelectionCom.vue'
-import ajax from '../assets/ajax.js'
 
 export default {
     data() {
@@ -101,12 +100,13 @@ export default {
         },
         get_per_unit() {
             if (this.mainTsCode) {
-                ajax.post({
-                    url: 'symbol/get_per_unit_by_fut_code',
-                    data: {
-                        main_ts_code: this.mainTsCode
-                    }
-                })
+                this.ajax
+                    .post({
+                        url: 'symbol/get_per_unit_by_fut_code',
+                        data: {
+                            main_ts_code: this.mainTsCode
+                        }
+                    })
                     .then((response) => {
                         if (response.status === 200) {
                             this.per_unit = response.data

@@ -6,13 +6,13 @@ import login from './login.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-	state: {
-	},
-	mutations: {
-	},
-	actions: {},
-	modules: {
-		login: login,
-		future_info: future_info,
-	}
+  state: {
+  },
+  mutations: {
+  },
+  actions: {},
+  modules: {
+    login: login,
+    future_info: future_info,
+  }
 })

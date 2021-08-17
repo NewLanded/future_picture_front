@@ -1,5 +1,5 @@
 {
-  "name": "future_picture_front",
+  "name": "future_picture_front_2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "dayjs": "^1.10.5",
-    "echarts": "^5.0.2",
-    "element-ui": "^2.15.1",
+    "dayjs": "^1.10.6",
+    "echarts": "^5.1.2",
+    "element-ui": "^2.15.5",
     "lodash": "^4.17.21",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

@@ -23,9 +23,7 @@ export default {
                 this.ts_code_list = []
                 let mainTsCodeList = this.mainTsCode.split('.')
 
-                let date = new Date()
-                let year = date.getFullYear().toString().slice(2)
-
+                let year = this.dayjs().year().toString().slice(2)
                 for (var i = 1; i <= 12; i++) {
                     if (i < 10) {
                         options.push({
@@ -40,7 +38,7 @@ export default {
                     }
                 }
 
-                let next_year = (parseInt(year) + 1).toString()
+                let next_year = this.dayjs().add(1, 'year').year().toString().slice(2)
                 for (var i = 1; i <= 12; i++) {
                     if (i < 10) {
                         options.push({
@@ -67,7 +65,4 @@ export default {
 </script>
 
 <style scoped>
-.box-border {
-    margin: 10px;
-}
 </style>

@@ -25,7 +25,6 @@
 <script>
 import dateCom from '../components/paramComponents/dateCom.vue'
 import freqCodeCom from '../components/paramComponents/freqCodeCom.vue'
-import ajax from '../assets/ajax.js'
 
 export default {
     data() {
@@ -55,16 +54,17 @@ export default {
         },
         commit_note() {
             if (this.note && this.dateComValue && this.freqCodeComValue) {
-                ajax.post({
-                    url: 'note/note_write',
-                    data: {
-                        main_ts_code: 'common',
-                        ts_code: 'common',
-                        trade_date: this.dateComValue.format('YYYY-MM-DD'),
-                        freq_code: this.freqCodeComValue,
-                        note: this.note
-                    }
-                })
+                this.ajax
+                    .post({
+                        url: 'note/note_write',
+                        data: {
+                            main_ts_code: 'common',
+                            ts_code: 'common',
+                            trade_date: this.dateComValue.format('YYYY-MM-DD'),
+                            freq_code: this.freqCodeComValue,
+                            note: this.note
+                        }
+                    })
                     .then((response) => {
                         if (response.status === 200) {
                             this.$message({

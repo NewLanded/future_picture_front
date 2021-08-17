@@ -13,7 +13,7 @@ export default {
             date: this.$attrs.dateComValue,
             pickerOptions: {
                 disabledDate(time) {
-                    return time.getTime() > Date.now() + 24 * 60 * 60 * 1000 * 14
+                    return time.getTime() > Date.now() + 60 * 60 * 24 * 1000 * 14
                 },
                 shortcuts: [
                     {
@@ -26,7 +26,7 @@ export default {
                         text: '一周前',
                         onClick(picker) {
                             const date = new Date()
-                            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+                            date.setTime(date.getTime() - 60 * 60 * 24 * 1000 * 7)
                             picker.$emit('pick', date)
                         }
                     },
@@ -34,7 +34,7 @@ export default {
                         text: '一月前',
                         onClick(picker) {
                             const date = new Date()
-                            date.setTime(date.getTime() - 3600 * 1000 * 24 * 30)
+                            date.setTime(date.getTime() - 60 * 60 * 24 * 1000 * 30)
                             picker.$emit('pick', date)
                         }
                     }
@@ -51,7 +51,4 @@ export default {
 </script>
 
 <style scoped>
-.box-border {
-    margin: 10px;
-}
 </style>

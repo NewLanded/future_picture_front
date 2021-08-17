@@ -18,15 +18,18 @@ export default {
             let result = []
             let mainTsCodeList = this.$attrs.mainTsCode.split('.')
 
-            let date = new Date()
-            let year = date.getFullYear().toString().slice(2)
-
+            // let date = new Date()
+            // let year = date.getFullYear().toString().slice(2)
+            // console.log(this.dayjs)
+            let year = this.dayjs().year().toString().slice(2)
             for (let i of [1, 5, 9]) {
                 result.push({ value: mainTsCodeList[0] + year + '0' + i + '.' + mainTsCodeList[1] })
             }
-            year = (parseInt(year) + 1).toString()
+            // year = (parseInt(year) + 1).toString()
+
+            let next_year = this.dayjs().add(1, 'year').year().toString().slice(2)
             for (let i of [1, 5, 9]) {
-                result.push({ value: mainTsCodeList[0] + year + '0' + i + '.' + mainTsCodeList[1] })
+                result.push({ value: mainTsCodeList[0] + next_year + '0' + i + '.' + mainTsCodeList[1] })
             }
 
             // for (let i = 1; i <= 12; i++) {
@@ -61,7 +64,4 @@ export default {
 </script>
 
 <style scoped>
-.box-border {
-    margin: 10px;
-}
 </style>

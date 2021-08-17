@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import ajax from '../assets/ajax.js'
 import datecom from '../components/paramComponents/dateCom.vue'
 
 export default {
@@ -62,12 +61,13 @@ export default {
             }
         },
         search() {
-            ajax.post({
-                url: 'note/get_strategy_result_data',
-                data: {
-                    trade_date: this.dateComValue.format('YYYY-MM-DD')
-                }
-            })
+            this.ajax
+                .post({
+                    url: 'note/get_strategy_result_data',
+                    data: {
+                        trade_date: this.dateComValue.format('YYYY-MM-DD')
+                    }
+                })
                 .then((response) => {
                     if (response.status === 200) {
                         if (response.data.length === 0) {

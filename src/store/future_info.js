@@ -1,5 +1,4 @@
-// import { aside_future_info } from '../../config.host.js';
-import ajax from '../assets/ajax.js';
+import Vue from 'vue';
 
 export default {
     namespaced: true,
@@ -112,7 +111,7 @@ export default {
             const ts_code_list = param.ts_code_list;
             const freq_code = param.freq_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'summarize/main_code_interval_raise_fall_data',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -138,7 +137,7 @@ export default {
             const main_ts_code = param.ts_code;
             const freq_code = param.freq_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'point/main_code_interval_point_data',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -164,7 +163,7 @@ export default {
             const ts_code = param.ts_code;
             const freq_code = param.freq_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'point/ts_code_interval_point_data',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -189,7 +188,7 @@ export default {
             const end_date = param.end_date;
             const ts_code = param.ts_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'point/ts_code_interval_pure_holding_data_first_n',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -212,7 +211,7 @@ export default {
             const end_date = param.end_date;
             const ts_code = param.ts_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'point/ts_code_interval_pure_volume_data',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -237,7 +236,7 @@ export default {
             const ts_code_list = param.ts_code_list;
             const freq_code = param.freq_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'summarize/main_code_relative_close_point_data',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -262,7 +261,7 @@ export default {
             const end_date = param.end_date;
             const main_ts_code = param.main_ts_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'symbol/get_contract_change_date_by_main_ts_code',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -285,7 +284,7 @@ export default {
             const end_date = param.end_date;
             const main_ts_code = param.main_ts_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'note/get_note',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
@@ -308,7 +307,7 @@ export default {
             const end_date = param.end_date;
             const main_ts_code = param.main_ts_code;
 
-            ajax.post({
+            Vue.prototype.ajax.post({
                 url: 'note/get_bs_note',
                 data: {
                     start_date: start_date.format('YYYY-MM-DD'),
