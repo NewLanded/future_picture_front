@@ -13,6 +13,8 @@ import Step from '../views/Step.vue'
 import StrategyResult from '../views/StrategyResult.vue'
 import Summarize from '../views/Summarize.vue'
 import Symbol from '../views/Symbol.vue'
+import TimelineNote from '../views/TimelineNote.vue'
+
 
 Vue.use(VueRouter)
 
@@ -73,6 +75,14 @@ const routes = [
     path: '/NormalNote',
     name: 'NormalNote',
     component: NormalNote,
+    meta: {
+      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+    }
+  },
+  {
+    path: '/TimelineNote',
+    name: 'TimelineNote',
+    component: TimelineNote,
     meta: {
       requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
     }

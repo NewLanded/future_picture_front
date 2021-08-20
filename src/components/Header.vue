@@ -41,6 +41,9 @@
                         <el-menu-item index="8-4">
                             <router-link to="/NormalNote" class="navFontSize">NormalNote</router-link>
                         </el-menu-item>
+                        <el-menu-item index="8-5">
+                            <router-link to="/TimelineNote" class="navFontSize">TimelineNote</router-link>
+                        </el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-col>
