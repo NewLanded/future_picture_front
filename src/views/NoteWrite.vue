@@ -33,6 +33,7 @@ import freqCodeCom from '../components/paramComponents/freqCodeCom.vue'
 export default {
     // this.$store.commit('login/set_token', response.data.access_token)
     // store.state.login.token
+    name: 'NoteWrite',
     data() {
         return {
             mainTsCode: '',

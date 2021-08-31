@@ -77,6 +77,7 @@ import k_vol_pie_bar from '../components/print/k_vol_pie_bar.vue'
 import ts_code_com from '../components/paramComponents/tsCodeCom.vue'
 
 export default {
+    name: 'SymbolK',
     data() {
         return {
             dateComValue: this.dayjs(),

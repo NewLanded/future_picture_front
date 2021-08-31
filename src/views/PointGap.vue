@@ -39,6 +39,7 @@ import multi_point_line from '../components/print/multi_point_line.vue'
 import tsCodeMultiSelectCom from '../components/paramComponents/tsCodeMultiSelectCom.vue'
 
 export default {
+    name: 'PointGap',
     data() {
         return {
             dateComValue: this.dayjs(),

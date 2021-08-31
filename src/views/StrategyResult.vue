@@ -41,6 +41,7 @@
 import datecom from '../components/paramComponents/dateCom.vue'
 
 export default {
+    name: 'StrategyResult',
     data() {
         return {
             result: [],

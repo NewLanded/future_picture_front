@@ -19,6 +19,7 @@
 import Qs from 'qs'
 
 export default {
+    name: 'Login',
     data() {
         return {
             ruleForm2: {

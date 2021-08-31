@@ -41,6 +41,7 @@
 
 <script>
 export default {
+    name: 'TimelineNote',
     data() {
         return {
             note: {

@@ -37,6 +37,7 @@ import multi_point_line from '../components/print/multi_point_line.vue'
 export default {
     // this.$store.commit('login/set_token', response.data.access_token)
     // store.state.login.token
+    name: 'Summarize',
     data() {
         return {
             dateComValue: this.dayjs()

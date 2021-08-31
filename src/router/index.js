@@ -12,7 +12,7 @@ import Prebs from '../views/Prebs.vue'
 import Step from '../views/Step.vue'
 import StrategyResult from '../views/StrategyResult.vue'
 import Summarize from '../views/Summarize.vue'
-import Symbol from '../views/Symbol.vue'
+import SymbolK from '../views/SymbolK.vue'
 import TimelineNote from '../views/TimelineNote.vue'
 
 
@@ -28,7 +28,8 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      requireAuth: false // 添加该字段，表示进入这个路由是不需要登录的
+      requireAuth: false, // 添加该字段，表示进入这个路由是不需要登录的
+      keepAlive: false
     }
   },
   {
@@ -36,15 +37,19 @@ const routes = [
     name: 'Summarize',
     component: Summarize,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "Summarize"
     }
   },
   {
-    path: '/symbol',
-    name: 'Symbol',
-    component: Symbol,
+    path: '/symbolK',
+    name: 'SymbolK',
+    component: SymbolK,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "SymbolK"
     }
   },
   {
@@ -52,7 +57,9 @@ const routes = [
     name: 'Step',
     component: Step,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "Step"
     }
   },
   {
@@ -60,39 +67,49 @@ const routes = [
     name: 'NoteWrite',
     component: NoteWrite,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "NoteWrite"
     }
   },
   {
-    path: '/BsNoteWrite',
+    path: '/bsNoteWrite',
     name: 'BsNoteWrite',
     component: BsNoteWrite,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "BsNoteWrite"
     }
   },
   {
-    path: '/NormalNote',
+    path: '/normalNote',
     name: 'NormalNote',
     component: NormalNote,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "NormalNote"
     }
   },
   {
-    path: '/TimelineNote',
+    path: '/timelineNote',
     name: 'TimelineNote',
     component: TimelineNote,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "TimelineNote"
     }
   },
   {
-    path: '/CommonNoteWrite',
+    path: '/commonNoteWrite',
     name: 'CommonNoteWrite',
     component: CommonNoteWrite,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "CommonNoteWrite"
     }
   },
   {
@@ -100,31 +117,39 @@ const routes = [
     name: 'Prebs',
     component: Prebs,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "Prebs"
     }
   },
   {
-    path: '/CalcGainloss',
+    path: '/calcGainloss',
     name: 'CalcGainloss',
     component: CalcGainloss,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "CalcGainloss"
     }
   },
   {
-    path: '/PointGap',
+    path: '/pointGap',
     name: 'PointGap',
     component: PointGap,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "PointGap"
     }
   },
   {
-    path: '/StrategyResult',
+    path: '/strategyResult',
     name: 'StrategyResult',
     component: StrategyResult,
     meta: {
-      requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+      requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+      keepAlive: true,
+      name: "StrategyResult"
     }
   },
 ]

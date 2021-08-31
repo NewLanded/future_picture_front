@@ -44,6 +44,7 @@ import tradeTypeCom from '../components/paramComponents/tradeTypeCom.vue'
 import normalInputCom from '../components/paramComponents/normalInputCom.vue'
 
 export default {
+    name: 'BsNoteWrite',
     data() {
         return {
             mainTsCode: '',

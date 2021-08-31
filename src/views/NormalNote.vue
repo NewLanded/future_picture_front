@@ -29,6 +29,7 @@
 export default {
     // this.$store.commit('login/set_token', response.data.access_token)
     // store.state.login.token
+    name: 'NormalNote',
     data() {
         return {
             note: []

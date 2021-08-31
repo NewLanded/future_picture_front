@@ -10,39 +10,39 @@
                         <router-link to="/summarize" class="navFontSize">Summarize</router-link>
                     </el-menu-item>
                     <el-menu-item index="2">
-                        <router-link to="/symbol" class="navFontSize">Symbol</router-link>
+                        <router-link to="/symbolK" class="navFontSize">SymbolK</router-link>
                     </el-menu-item>
                     <el-menu-item index="3">
-                        <router-link to="/PointGap" class="navFontSize">PointGap</router-link>
+                        <router-link to="/pointGap" class="navFontSize">PointGap</router-link>
                     </el-menu-item>
                     <el-menu-item index="4">
                         <router-link to="/step" class="navFontSize">Step</router-link>
                     </el-menu-item>
                     <el-menu-item index="5">
-                        <router-link to="/CalcGainloss" class="navFontSize">CalcGainloss</router-link>
+                        <router-link to="/calcGainloss" class="navFontSize">CalcGainloss</router-link>
                     </el-menu-item>
                     <el-menu-item index="6">
-                        <router-link to="/Prebs" class="navFontSize">Prebs</router-link>
+                        <router-link to="/prebs" class="navFontSize">Prebs</router-link>
                     </el-menu-item>
                     <el-menu-item index="7">
-                        <router-link to="/StrategyResult" class="navFontSize">StrategyResult</router-link>
+                        <router-link to="/strategyResult" class="navFontSize">StrategyResult</router-link>
                     </el-menu-item>
                     <el-submenu index="8">
                         <template slot="title"><span class="navFontSize">Note</span></template>
                         <el-menu-item index="8-1">
-                            <router-link to="/CommonNoteWrite" class="navFontSize">CommonNoteWrite</router-link>
+                            <router-link to="/commonNoteWrite" class="navFontSize">CommonNoteWrite</router-link>
                         </el-menu-item>
                         <el-menu-item index="8-2">
                             <router-link to="/note-write" class="navFontSize">NoteWrite</router-link>
                         </el-menu-item>
                         <el-menu-item index="8-3">
-                            <router-link to="/BsNoteWrite" class="navFontSize">BsNoteWrite</router-link>
+                            <router-link to="/bsNoteWrite" class="navFontSize">BsNoteWrite</router-link>
                         </el-menu-item>
                         <el-menu-item index="8-4">
-                            <router-link to="/NormalNote" class="navFontSize">NormalNote</router-link>
+                            <router-link to="/normalNote" class="navFontSize">NormalNote</router-link>
                         </el-menu-item>
                         <el-menu-item index="8-5">
-                            <router-link to="/TimelineNote" class="navFontSize">TimelineNote</router-link>
+                            <router-link to="/timelineNote" class="navFontSize">TimelineNote</router-link>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>

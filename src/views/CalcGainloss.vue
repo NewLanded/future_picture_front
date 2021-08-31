@@ -41,6 +41,7 @@ import normalInputCom from '../components/paramComponents/normalInputCom.vue'
 import InputSelectionCom from '../components/paramComponents/InputSelectionCom.vue'
 
 export default {
+    name: 'CalcGainloss',
     data() {
         return {
             mainTsCode: '合约代码',

@@ -27,6 +27,7 @@ import dateCom from '../components/paramComponents/dateCom.vue'
 import freqCodeCom from '../components/paramComponents/freqCodeCom.vue'
 
 export default {
+    name: 'CommonNoteWrite',
     data() {
         return {
             mainTsCode: '',

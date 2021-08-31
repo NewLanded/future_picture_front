@@ -35,6 +35,7 @@ import datecom from '../components/paramComponents/dateCom.vue'
 import k_bar from '../components/print/k_bar.vue'
 
 export default {
+    name: 'Step',
     data() {
         return {
             dateComValue: this.dayjs(),
