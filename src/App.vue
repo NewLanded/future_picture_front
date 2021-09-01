@@ -2,7 +2,7 @@
     <div id="app">
         <Header v-show="!(path==='/login')"></Header>
 
-        <el-tabs v-model="editableTabsValue" closable type="card" @tab-remove="removeTab" @tab-click="tabClick">
+        <el-tabs v-model="editableTabsValue" closable type="card" @tab-remove="removeTab" @tab-click="tabClick" v-show="!(path==='/login')">
             <el-tab-pane :key="item.name" v-for="item in editableTabs" :label="item.title" :name="item.name">
             </el-tab-pane>
         </el-tabs>
@@ -39,6 +39,23 @@ export default {
     },
     mounted() {
         this.path = this.$route.path
+
+        // 刷新页面时重定向到Summarize
+        // 感觉不像是符合规范的处理方式, 但是没能搞明白刷新的时候处理逻辑, 不知道怎么做是合理的
+        if (this.path != '/login' && this.path != '/summarize') {
+            this.editableTabsValue = 'Summarize'
+            this.$router.push({
+                path: '/summarize'
+            })
+        }
+
+        // // 刷新页面时重定向到Summarize  不好使
+        // window.addEventListener('beforeunload', (e) => {
+        //     this.editableTabsValue = 'Summarize'
+        //     this.$router.push({
+        //         path: '/summarize'
+        //     })
+        // })
     },
     watch: {
         $route(to, from) {
